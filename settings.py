@@ -11,13 +11,16 @@ class Settings:
         # Screen settings
         self.screen_width = 800
         self.screen_height = 600
-        self.bg_color = (255, 255, 255)
+        self.bg_color = (255,255,255)
+
         # Plane settings
         self.plane_speed = 2
         self.plane_health = 3
         self.plane_blink_time = 200
         self.plane_invincibility_duration = 2000
         self.plane_color = (0,0,0)
+        self.small_plane_color = (0,0,0)
+        self.plane_blink_color = (255,0,0)
         
         # Bullet settings
         self.bullet_speed = 1
@@ -29,7 +32,7 @@ class Settings:
         self.enemy_x_speed = 0.7
         self.max_enemies = 10
         self.enemy_spawn_delay = 1000
-        self.enemy_color = (0,0,0)
+        self.enemy_color = (200,0,0)
         
         # Button settings
         self.button_color = (100, 100, 100)
@@ -63,7 +66,7 @@ class Settings:
         self.bullet_image_str = '!'
         self.enemy_image_str = 'v'
         self.plane_image = self.plane_font.render(self.plane_image_str,True,self.plane_color)
-        self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_color)
-        self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.plane_color)
+        self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_blink_color)
+        self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)
         self.enemy_image = self.enemy_font.render(self.enemy_image_str,True,self.enemy_color)
