@@ -125,13 +125,13 @@ class SymbolWar:
     def _update_enemies(self):
         self.enemies.update()
 
-        self._check_collisions()
+        self._check_plane_enemy_collisions()
 
         for enemy in self.enemies.copy():
             if enemy.rect.top >= self.screen.get_rect().height:
                 self.enemies.remove(enemy)
         # 检查敌机和飞机之间的碰撞
-    def _check_collisions(self):
+    def _check_plane_enemy_collisions(self):
         collisions_enemy = pygame.sprite.spritecollideany(self.plane, self.enemies)
         if collisions_enemy and not self.plane.invincible:
             print("Plane hit!")
