@@ -10,7 +10,7 @@ from stats import GameStats
 from button import Button
 from gui import Gui
 
-class PlaneWar:
+class SymbolWar:
     
     def __init__(self):
         pygame.init()
@@ -193,6 +193,6 @@ class PlaneWar:
                 self.update_screen()
 
 if __name__ == "__main__":
-    plane_war = PlaneWar()
+    symbol_war = SymbolWar()
     while True:
-        plane_war.run_game()
+        symbol_war.run_game()
