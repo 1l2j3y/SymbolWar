@@ -1,5 +1,8 @@
+import json
+
 import pygame
-    # 用于储存会随邮寄的进行而动态变化的数据
+
+    # 用于储存会随游戏的进行而动态变化的数据
 class GameStats:
 
     def __init__(self, PW_game):
@@ -9,8 +12,11 @@ class GameStats:
         self.plane = PW_game.plane
         self.enemies = PW_game.enemies
         self.bullets = PW_game.bullets
-        
-        self.highest_score = 0
+        try:
+            with open("highest.json","r",encoding="utf-8") as f:
+                self.highest_score = json.load(f)
+        except FileNotFoundError:
+            self.highest_score = 0
         self.reset_stats()
         self.game_active = False
         # 重置统计数据

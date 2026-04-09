@@ -1,4 +1,5 @@
 import sys
+import json
 
 import pygame
 
@@ -38,6 +39,8 @@ class SymbolWar:
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                with open("highest.json","w",encoding="utf-8") as f:
+                    json.dump(self.stats.highest_score,f,indent=2)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event) 
@@ -59,6 +62,8 @@ class SymbolWar:
         elif event.key == pygame.K_SPACE:
             self.fire_bullet()
         elif event.key == pygame.K_ESCAPE:
+            with open("highest.json","w",encoding="utf-8") as f:
+                json.dump(self.stats.highest_score,f,indent=2)
             sys.exit()
         # 检测键盘松键事件类型
     def _check_keyup_events(self, event):
