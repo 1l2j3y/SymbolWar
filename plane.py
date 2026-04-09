@@ -40,6 +40,10 @@ class Plane(Sprite):
             self.rect.y += self.speed
         # 绘制飞机
     def plane_draw(self):
+        if self.invincible:
+            self.image = self.settings.plane_blink_image
+        else:
+            self.image = self.settings.plane_image
         self.screen.blit(self.image,self.rect)
 
 class SmallPlane(Sprite):

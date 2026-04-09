@@ -50,13 +50,16 @@ class Settings:
         self.difficulty_up_delay= 20000
         # Images settings
         self.plane_font = pygame.font.SysFont(None,100)
+        self.plane_blink_font = pygame.font.SysFont(None,60)
         self.small_plane_font = pygame.font.SysFont(None,60)
         self.bullet_font = pygame.font.SysFont(None,60)
         self.enemy_font = pygame.font.SysFont(None,80)
         self.plane_image_str = '(^)'
+        self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
         self.enemy_image_str = 'v'
         self.plane_image = self.plane_font.render(self.plane_image_str,True,self.plane_color)
+        self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_color)
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.plane_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)
         self.enemy_image = self.enemy_font.render(self.enemy_image_str,True,self.enemy_color)
