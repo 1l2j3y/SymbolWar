@@ -1,7 +1,5 @@
 import random
 
-import pygame
-
 from pygame.sprite import Sprite
 
 class Enemy(Sprite):
