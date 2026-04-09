@@ -36,11 +36,14 @@ class Settings:
         self.text_color = (0, 0, 0)
         self.button_width = 200
         self.button_height = 50
+
         # GUI settings
         self.GUI_text_color = (30,30,30)
         self.GUI_font = pygame.font.SysFont(None,48)
+
         # score settings
         self.enemy_points = 10
+
         # Difficulty settings
         self.enemy_x_speed_up = 0.1
         self.enemy_y_speed_up = 0.1
@@ -48,6 +51,7 @@ class Settings:
         self.enemy_spawn_delay_down_coefficient = 0.9
         self.enemy_spawn_min_delay = 200
         self.difficulty_up_delay= 20000
+        
         # Images settings
         self.plane_font = pygame.font.SysFont(None,100)
         self.plane_blink_font = pygame.font.SysFont(None,60)
