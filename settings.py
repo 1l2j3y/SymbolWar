@@ -33,8 +33,8 @@ class Settings:
         self.enemy_color = (200,0,0)
         self.enemy_health = {'dive':1,'sweep':1,'tank':3}
 
-        self.enemy_y_speed = {'dive':0.8,'sweep':0.4,'tank':0.2}
-        self.enemy_x_speed = {'dive':0,'sweep':0.8,'tank':0.2}
+        self.enemy_y_speed = {'dive':1,'sweep':0.5,'tank':0.3}
+        self.enemy_x_speed = {'dive':0,'sweep':1,'tank':0.3}
 
         # Button settings
         self.button_color = (100, 100, 100)

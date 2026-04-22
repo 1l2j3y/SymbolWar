@@ -61,7 +61,8 @@ class Enemy(Sprite):
         # 增加敌人速度
     def speedup(self,difficulty=0):
         self.y_speed += self.settings.enemy_y_speed_up*difficulty
-        self.x_speed += self.settings.enemy_x_speed_up*difficulty
+        if self.enemy_type != 'dive':
+            self.x_speed += self.settings.enemy_x_speed_up*difficulty
 
         # 生成随机敌人
     def get_enemy_type(self):
