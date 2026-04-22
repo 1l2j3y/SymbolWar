@@ -95,7 +95,13 @@ class SymbolWar:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
             # 检查子弹和敌机之间的碰撞
-        collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, False)
+        for hit_enemies in collisions.values():
+            for injured_enemy in hit_enemies:
+                injured_enemy.health -= 1
+                
+                if injured_enemy.health <= 0:
+                    injured_enemy.kill()
 
         if collisions:
             for enemy_num in collisions.values():
@@ -109,11 +115,13 @@ class SymbolWar:
         now_time = pygame.time.get_ticks()
         now_difficulty = (now_time - self.stats.game_start_time) // self.settings.difficulty_up_delay
         self.gui.difficulty_GUI_create()
+
         if now_difficulty > self.stats.difficulty:
             if self.stats.enemy_spawn_delay > self.settings.enemy_spawn_min_delay:
                 self.stats.enemy_spawn_delay *= self.settings.enemy_spawn_delay_down_coefficient
             self.stats.max_enemies += self.settings.enemy_maxnum_up
             self.stats.difficulty = now_difficulty
+
         if len(self.enemies) < self.stats.max_enemies:
             if now_time - self.last_enemy_spawn_time < self.stats.enemy_spawn_delay:
                 return
@@ -121,6 +129,7 @@ class SymbolWar:
             new_enemy = Enemy(self)
             new_enemy.speedup(now_difficulty)
             self.enemies.add(new_enemy)
+
         # 更新敌机位置并删除已消失的敌机
     def _update_enemies(self):
         self.enemies.update()

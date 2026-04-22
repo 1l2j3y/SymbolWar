@@ -28,12 +28,14 @@ class Settings:
         self.bullet_color = (0,0,0)
         
         # Enemy settings
-        self.enemy_y_speed = 0.2
-        self.enemy_x_speed = 0.7
         self.max_enemies = 10
         self.enemy_spawn_delay = 1000
         self.enemy_color = (200,0,0)
-        
+        self.enemy_health = {'dive':1,'sweep':1,'tank':3}
+
+        self.enemy_y_speed = {'dive':1,'sweep':0.5,'tank':0.3}
+        self.enemy_x_speed = {'dive':0,'sweep':1,'tank':0.3}
+
         # Button settings
         self.button_color = (100, 100, 100)
         self.text_color = (0, 0, 0)
@@ -60,15 +62,12 @@ class Settings:
         self.plane_blink_font = pygame.font.SysFont(None,60)
         self.small_plane_font = pygame.font.SysFont(None,60)
         self.bullet_font = pygame.font.SysFont(None,60)
-        self.enemy_font = pygame.font.SysFont(None,80)
-
+                           
         self.plane_image_str = '(^)'
         self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
-        self.enemy_image_str = 'v'
         
         self.plane_image = self.plane_font.render(self.plane_image_str,True,self.plane_color)
         self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_blink_color)
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)
-        self.enemy_image = self.enemy_font.render(self.enemy_image_str,True,self.enemy_color)
