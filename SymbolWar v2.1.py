@@ -99,7 +99,6 @@ class SymbolWar:
         for hit_enemies in collisions.values():
             for injured_enemy in hit_enemies:
                 injured_enemy.health -= 1
-                
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
 
