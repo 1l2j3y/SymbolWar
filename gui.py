@@ -4,12 +4,12 @@ from plane import SmallPlane
 
 class Gui:
 
-    def __init__(self,PW_game):
-        self.PW_game = PW_game
-        self.screen = PW_game.screen
-        self.screen_rect = PW_game.screen.get_rect()
-        self.settings = PW_game.settings
-        self.stats = PW_game.stats
+    def __init__(self,SW_game):
+        self.SW_game = SW_game
+        self.screen = SW_game.screen
+        self.screen_rect = SW_game.screen.get_rect()
+        self.settings = SW_game.settings
+        self.stats = SW_game.stats
 
         self.text_color = self.settings.GUI_text_color
         self.font = self.settings.GUI_font
@@ -44,7 +44,7 @@ class Gui:
             # 剩余血量
         self.small_planes = Group()
         for plane_num in range(self.stats.plane.health):
-            small_plane = SmallPlane(self.PW_game)
+            small_plane = SmallPlane(self.SW_game)
             small_plane.rect.left = plane_num*small_plane.rect.width
             small_plane.rect.top = 0
             self.small_planes.add(small_plane)

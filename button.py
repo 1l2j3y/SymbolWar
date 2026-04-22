@@ -2,9 +2,9 @@ import pygame.font
 
 class Button:
 
-    def __init__(self, PW_game,msg):
-        self.screen = PW_game.screen
-        self.settings = PW_game.settings
+    def __init__(self, SW_game,msg):
+        self.screen = SW_game.screen
+        self.settings = SW_game.settings
         self.screen_rect = self.screen.get_rect()
             # 按钮属性
         self.button_color = self.settings.button_color

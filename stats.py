@@ -5,13 +5,13 @@ import pygame
     # 用于储存会随游戏的进行而动态变化的数据
 class GameStats:
 
-    def __init__(self, PW_game):
-        self.settings = PW_game.settings
-        self.screen = PW_game.screen
+    def __init__(self, SW_game):
+        self.settings = SW_game.settings
+        self.screen = SW_game.screen
         self.screen_rect = self.screen.get_rect()
-        self.plane = PW_game.plane
-        self.enemies = PW_game.enemies
-        self.bullets = PW_game.bullets
+        self.plane = SW_game.plane
+        self.enemies = SW_game.enemies
+        self.bullets = SW_game.bullets
         try:
             with open("highest.json","r",encoding="utf-8") as f:
                 self.highest_score = json.load(f)

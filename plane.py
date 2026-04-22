@@ -2,12 +2,12 @@ from pygame.sprite import Sprite
 
 class Plane(Sprite):
 
-    def __init__(self,PW_game):
+    def __init__(self,SW_game):
         super().__init__()
             # 获取游戏屏幕对象和设置对象
-        self.screen = PW_game.screen
-        self.settings = PW_game.settings
-        self.screen_rect = PW_game.screen.get_rect()
+        self.screen = SW_game.screen
+        self.settings = SW_game.settings
+        self.screen_rect = SW_game.screen.get_rect()
             # 加载飞机图像并获取其外接矩形
         self.image = self.settings.plane_image
         self.rect = self.image.get_rect()
@@ -48,10 +48,10 @@ class Plane(Sprite):
 
 class SmallPlane(Sprite):
 
-    def __init__(self,PW_game):
+    def __init__(self,SW_game):
         super().__init__()
         
-        self.settings = PW_game.settings
+        self.settings = SW_game.settings
             # 加载飞机图像并获取其外接矩形
         self.image = self.settings.small_plane_image
         self.rect = self.image.get_rect()

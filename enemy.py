@@ -5,13 +5,13 @@ from pygame.sprite import Sprite
 
 class Enemy(Sprite):
 
-    def __init__(self,PW_game):
+    def __init__(self,SW_game):
         super().__init__()
 
             # 获取游戏屏幕对象和设置对象
-        self.screen = PW_game.screen
-        self.settings = PW_game.settings
-        self.screen_rect = PW_game.screen.get_rect()
+        self.screen = SW_game.screen
+        self.settings = SW_game.settings
+        self.screen_rect = SW_game.screen.get_rect()
 
         self.get_enemy_type()
 
@@ -44,7 +44,7 @@ class Enemy(Sprite):
         self.y = float(self.rect.y)
 
             # 敌机刷新间隔
-        self.enemy_spawn_delay = PW_game.stats.enemy_spawn_delay
+        self.enemy_spawn_delay = SW_game.stats.enemy_spawn_delay
 
         # 更新敌机位置
     def update(self):
