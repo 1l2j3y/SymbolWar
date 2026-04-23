@@ -97,6 +97,7 @@ class Boss(Sprite):
         super().__init__()
 
             # 获取游戏屏幕对象和设置对象
+        self.SW_game = SW_game
         self.screen = SW_game.screen
         self.settings = SW_game.settings
         self.screen_rect = SW_game.screen.get_rect()
@@ -145,9 +146,9 @@ class Boss(Sprite):
 
         now_time = pygame.time.get_ticks()
         if now_time - self.last_shoot_time >= self.shoot_delay:
-            self.shoot(self.SW_game)
+            self.shoot()
             self.last_shoot_time = now_time
 
-    def shoot(self, SW_game):
-        new_boss_bullet = BossBullet(SW_game)
-        SW_game.boss_bullets.add(new_boss_bullet)
+    def shoot(self):
+        new_boss_bullet = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
+        self.SW_game.boss_bullets.add(new_boss_bullet)
