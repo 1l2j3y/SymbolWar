@@ -1,3 +1,4 @@
+from hmac import new
 import random
 
 import pygame
@@ -135,7 +136,7 @@ class Boss(Sprite):
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
-    # 更新boss位置
+    # 更新boss和boss子弹位置
     def update(self):
         self.y += self.y_speed
         self.rect.y = self.y
@@ -143,14 +144,50 @@ class Boss(Sprite):
         if self.x < 0 or self.x > self.screen_rect.width - self.rect.width:
             self.x_speed = -self.x_speed
         self.rect.x = self.x
-
+        # 更新boss子弹位置
         now_time = pygame.time.get_ticks()
         if now_time - self.last_shoot_time >= self.shoot_delay:
             self.shoot()
             self.last_shoot_time = now_time
 
     def shoot(self):
-        new_boss_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 100,self.rect.bottom)
-        new_boss_bullet2 = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
-        new_boss_bullet3 = BossBullet(self.SW_game,self.rect.centerx + 100,self.rect.bottom)
-        self.SW_game.boss_bullets.add(new_boss_bullet1,new_boss_bullet2,new_boss_bullet3)
+        if self.type == 'alpha':
+            new_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 100,self.rect.bottom)
+            new_bullet2 = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
+            new_bullet3 = BossBullet(self.SW_game,self.rect.centerx + 100,self.rect.bottom)
+            self.SW_game.boss_bullets.add(new_bullet1,new_bullet2,new_bullet3)
+        elif self.type == 'beta':
+            shootx_points = random.choice([self.rect.centerx - 150,self.rect.centerx - 50,self.rect.centerx + 50,self.rect.centerx + 150])
+            bullet_x_speed_list = [-3,-1.5,0,1.5,3] 
+            for vx in bullet_x_speed_list:
+                new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom)
+                new_bullet.x_speed = vx
+                self.SW_game.boss_bullets.add(new_bullet)
+        elif self.type == 'gamma':
+            bullet_types = random.choice(['random','big','fast'])
+            if bullet_types == 'random':
+                shootx_points = random.randint(self.rect.left,self.rect.right) 
+                for _ in range(5):
+                    new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom)
+                    vx = random.randint(-3,3)
+                    vy = random.randint(1,3)
+                    new_bullet.x_speed = vx
+                    new_bullet.y_speed = vy
+                    self.SW_game.boss_bullets.add(new_bullet)
+            elif bullet_types == 'big':
+                new_bullet = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
+                new_bullet.image =  pygame.font.SysFont(None,200).render('vvv',True,self.settings.boss_bullet_color)
+                new_bullet.rect = new_bullet.image.get_rect()
+                new_bullet.rect.midbottom = (self.rect.centerx,self.rect.bottom)
+                new_bullet.y = float(new_bullet.rect.y)
+                new_bullet.x = float(new_bullet.rect.x)
+                new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*0.5
+                new_bullet.x_speed = self.settings.boss_bullet_x_speed[self.type]*0.5
+                self.SW_game.boss_bullets.add(new_bullet)
+            elif bullet_types == 'fast':
+                shootx_points = random.randint(self.rect.left,self.rect.right)
+                for _ in range(5):
+                    new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom)
+                    new_bullet.x_speed = 0
+                    new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*3
+                    self.SW_game.boss_bullets.add(new_bullet)

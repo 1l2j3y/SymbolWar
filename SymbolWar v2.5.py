@@ -254,11 +254,12 @@ class SymbolWar:
         self.gui.draw()
         self.bullets.draw(self.screen)
         self.enemies.draw(self.screen)
-        self.boss.draw(self.screen)
-        self.boss_bullets.draw(self.screen)
         if self.stats.boss_exist:
             boss = self.boss.sprites()[0]
+            self.boss.draw(self.screen)
             self.gui.boss_health_GUI_create(boss)
+            self.boss_bullets.update(boss.type)
+            self.boss_bullets.draw(self.screen)
         if not self.stats.game_active:
             self.button.button_draw()
         pygame.display.flip()
@@ -278,7 +279,6 @@ class SymbolWar:
                 self.check_events()
                 self.plane.update()
                 self._check_bullet_enemy_collisions()
-                self.boss_bullets.update()
                 self._check_boss_bullet_collisions()
                 self.create_enemy()
                 self._update_enemies()

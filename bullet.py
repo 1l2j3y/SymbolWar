@@ -31,10 +31,16 @@ class BossBullet(Sprite):
         self.rect = self.image.get_rect()
         self.rect.midbottom = (x, y)
         self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
+
         # 更新子弹位置
-    def update(self):
-        self.y += self.settings.boss_bullet_speed
+    def update(self,boss_type):
+        self.y_speed = self.settings.boss_bullet_y_speed[boss_type]
+        self.x_speed = self.settings.boss_bullet_x_speed[boss_type]
+        self.y += self.y_speed
+        self.x += self.x_speed
         if self.rect.top > self.screen.get_rect().bottom:
             self.kill()
         else:
             self.rect.y = self.y
+            self.rect.x = self.x
