@@ -152,13 +152,17 @@ class SymbolWar:
         if self.stats.boss_exist:
             return
         now_time = pygame.time.get_ticks() - self.stats.game_start_time
-        if self.stats.score >= 1000 and now_time >= 6000:
+        boss_type = None
+        if self.stats.score >= 1000 and now_time >= 60000 and not self.stats.boss_spawned['alpha']:
             boss_type = 'alpha'
-        if self.stats.score >= 3000 and now_time >= 120000:
+            self.stats.boss_spawned['alpha'] = True
+        if self.stats.score >= 3000 and now_time >= 120000 and not self.stats.boss_spawned['beta']:
             boss_type = 'beta'
-        if self.stats.score >= 5000 and now_time >= 180000:
-            boss_type = 'gamma' 
-            
+            self.stats.boss_spawned['beta'] = True
+        if self.stats.score >= 5000 and now_time >= 180000 and not self.stats.boss_spawned['gamma']:
+            boss_type = 'gamma'
+            self.stats.boss_spawned['gamma'] = True
+
         if boss_type:
             new_boss = Boss(self,boss_type)
             self.boss.add(new_boss)

@@ -27,6 +27,7 @@ class GameStats:
         self.plane.health = self.settings.plane_health
         self.enemy_spawn_delay = self.settings.enemy_spawn_delay
         self.max_enemies =  self.settings.max_enemies
+        self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
         self.boss_exist = False
 
         # 清空子弹和敌机

@@ -79,20 +79,23 @@ class Enemy(Sprite):
             self.enemy_type = 'tank'
 
 
-class Boss(Enemy):
+class Boss(Sprite):
 
     def __init__(self, SW_game,boss_type):
-        super().__init__(SW_game)
+        super().__init__()
 
-        self.stats = SW_game.stats
+            # 获取游戏屏幕对象和设置对象
+        self.screen = SW_game.screen
+        self.settings = SW_game.settings
+        self.screen_rect = SW_game.screen.get_rect()
+
         self.boss_type = boss_type
-        
+
         self.health = self.settings.boss_health[self.boss_type]
 
-
-        self.image_config = {'alpha':{'font':pygame.font.SysFont(None,200),'str':'\[v|V|v]/'},
+        self.image_config = {'alpha':{'font':pygame.font.SysFont(None,200),'str':'\\[v|V|v]/'},
                             'beta':{'font':pygame.font.SysFont(None,300),'str':'<[***#*>V<*#***]>'},
-                            'gamma':{'font':pygame.font.SysFont(None,250),'str':'\[⚙[V#*#V]⚙]/'}}
+                            'gamma':{'font':pygame.font.SysFont(None,250),'str':'\\[⚙[V#*#V]⚙]/'}}
         
         self.all_boss_image = {}
 
@@ -103,11 +106,23 @@ class Boss(Enemy):
             self.boss_image = self.boss_font.render(self.boss_image_str,True,self.settings.boss_color)
             self.all_boss_image[boss_type] = self.boss_image
 
+            # 加载boss图像并获取其外接矩形
+        self.image = self.all_boss_image[self.boss_type]
+        self.rect = self.image.get_rect()
+
         self.y_speed = self.settings.boss_y_speed[self.boss_type]
         self.x_speed = random.choice([-self.settings.boss_x_speed[self.boss_type], self.settings.boss_x_speed[self.boss_type]])
 
-    def get_enemy_type(self):
-        pass
+            # 这是将boss坐标转换为小数，以便更精确地控制boss的移动
+        self.rect.centerx = self.screen_rect.centerx
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
 
-    def speedup(self,difficulty=0):
-        pass
+    # 更新boss位置
+    def update(self):
+        self.y += self.y_speed
+        self.rect.y = self.y
+        self.x += self.x_speed
+        if self.x < 0 or self.x > self.screen_rect.width - self.rect.width:
+            self.x_speed = -self.x_speed
+        self.rect.x = self.x
