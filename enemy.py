@@ -1,8 +1,9 @@
 import random
-from tkinter import font
 
 import pygame
 from pygame.sprite import Sprite
+
+from bullet import BossBullet
 
 class Enemy(Sprite):
 
@@ -124,6 +125,9 @@ class Boss(Sprite):
         self.y_speed = self.settings.boss_y_speed[self.type]
         self.x_speed = random.choice([-self.settings.boss_x_speed[self.type], self.settings.boss_x_speed[self.type]])
 
+        self.shoot_delay = self.settings.boss_shoot_delay[self.type]
+        self.last_shoot_time = 0
+
             # 这是将boss坐标转换为小数，以便更精确地控制boss的移动
         self.rect.y = 100
         self.rect.centerx = self.screen_rect.centerx
@@ -138,3 +142,12 @@ class Boss(Sprite):
         if self.x < 0 or self.x > self.screen_rect.width - self.rect.width:
             self.x_speed = -self.x_speed
         self.rect.x = self.x
+
+        now_time = pygame.time.get_ticks()
+        if now_time - self.last_shoot_time >= self.shoot_delay:
+            self.shoot(self.SW_game)
+            self.last_shoot_time = now_time
+
+    def shoot(self, SW_game):
+        new_boss_bullet = BossBullet(SW_game)
+        SW_game.boss_bullets.add(new_boss_bullet)
