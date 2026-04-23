@@ -57,7 +57,8 @@ class Gui:
         health_bar_rect.centerx = self.screen_rect.centerx
         health_bar_rect.top = 10
         pygame.draw.rect(self.screen,self.settings.boss_health_bar_color,health_bar_rect)
-        rest_health_rect = pygame.Rect(0,0,500*(boss.health/self.settings.boss_health[boss.type]),30)
+        rest_health_rect_width = int(500*(boss.health/self.settings.boss_health[boss.type]))
+        rest_health_rect = pygame.Rect(0,0,rest_health_rect_width,30)
         rest_health_rect.left = health_bar_rect.left
         rest_health_rect.top = health_bar_rect.top
         pygame.draw.rect(self.screen,self.settings.boss_rest_health_bar_color,rest_health_rect)
