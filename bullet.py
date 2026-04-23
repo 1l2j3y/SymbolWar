@@ -20,7 +20,7 @@ class Bullet(Sprite):
 
 class BossBullet(Sprite):
 
-    def __init__(self,SW_game,x,y):
+    def __init__(self,SW_game,x,y,boss_type):
         super().__init__()
             #  获取游戏屏幕对象和设置对象
         self.screen = SW_game.screen
@@ -32,11 +32,10 @@ class BossBullet(Sprite):
         self.rect.midbottom = (x, y)
         self.y = float(self.rect.y)
         self.x = float(self.rect.x)
-
-        # 更新子弹位置
-    def update(self,boss_type):
         self.y_speed = self.settings.boss_bullet_y_speed[boss_type]
         self.x_speed = self.settings.boss_bullet_x_speed[boss_type]
+        # 更新子弹位置
+    def update(self):
         self.y += self.y_speed
         self.x += self.x_speed
         if self.rect.top > self.screen.get_rect().bottom:

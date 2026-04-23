@@ -1,4 +1,3 @@
-from hmac import new
 import random
 
 import pygame
@@ -152,15 +151,15 @@ class Boss(Sprite):
 
     def shoot(self):
         if self.type == 'alpha':
-            new_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 100,self.rect.bottom)
-            new_bullet2 = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
-            new_bullet3 = BossBullet(self.SW_game,self.rect.centerx + 100,self.rect.bottom)
+            new_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 100,self.rect.bottom,self.type)
+            new_bullet2 = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom,self.type)
+            new_bullet3 = BossBullet(self.SW_game,self.rect.centerx + 100,self.rect.bottom,self.type)
             self.SW_game.boss_bullets.add(new_bullet1,new_bullet2,new_bullet3)
         elif self.type == 'beta':
             shootx_points = random.choice([self.rect.centerx - 150,self.rect.centerx - 50,self.rect.centerx + 50,self.rect.centerx + 150])
             bullet_x_speed_list = [-3,-1.5,0,1.5,3] 
             for vx in bullet_x_speed_list:
-                new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom)
+                new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom,self.type)
                 new_bullet.x_speed = vx
                 self.SW_game.boss_bullets.add(new_bullet)
         elif self.type == 'gamma':
@@ -168,14 +167,14 @@ class Boss(Sprite):
             if bullet_types == 'random':
                 shootx_points = random.randint(self.rect.left,self.rect.right) 
                 for _ in range(5):
-                    new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom)
+                    new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom,self.type)
                     vx = random.randint(-3,3)
                     vy = random.randint(1,3)
                     new_bullet.x_speed = vx
                     new_bullet.y_speed = vy
                     self.SW_game.boss_bullets.add(new_bullet)
             elif bullet_types == 'big':
-                new_bullet = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
+                new_bullet = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom,self.type)
                 new_bullet.image =  pygame.font.SysFont(None,200).render('vvv',True,self.settings.boss_bullet_color)
                 new_bullet.rect = new_bullet.image.get_rect()
                 new_bullet.rect.midbottom = (self.rect.centerx,self.rect.bottom)

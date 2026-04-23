@@ -117,6 +117,7 @@ class SymbolWar:
                 injured_boss.health -= 1
                 if injured_boss.health <= 0:
                     injured_boss.kill()
+                    self.boss_bullets.empty()
                     self.stats.score += self.settings.boss_points
                     self.stats.boss_exist = False
                     if self.stats.score > self.stats.highest_score:
