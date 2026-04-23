@@ -76,14 +76,17 @@ class Settings:
         self.small_plane_font = pygame.font.SysFont(None,60)
         self.bullet_font = pygame.font.SysFont(None,60)
         self.boss_bullet_font = pygame.font.SysFont(None,100)
+        self.boss_gamma_big_bullet_font = pygame.font.SysFont(None,200)
                            
         self.plane_image_str = '(^)'
         self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
         self.boss_bullet_image_str = 'o'
+        self.boss_gamma_big_bullet_image_str = 'vvv'
         
         self.plane_image = self.plane_font.render(self.plane_image_str,True,self.plane_color)
         self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_blink_color)
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)
         self.boss_bullet_image = self.boss_bullet_font.render(self.boss_bullet_image_str,True,self.boss_bullet_color)
+        self.boss_gamma_big_bullet_image = self.boss_gamma_big_bullet_font.render(self.boss_gamma_big_bullet_image_str,True,self.boss_bullet_color)

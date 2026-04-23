@@ -259,7 +259,7 @@ class SymbolWar:
             boss = self.boss.sprites()[0]
             self.boss.draw(self.screen)
             self.gui.boss_health_GUI_create(boss)
-            self.boss_bullets.update(boss.type)
+            self.boss_bullets.update()
             self.boss_bullets.draw(self.screen)
         if not self.stats.game_active:
             self.button.button_draw()

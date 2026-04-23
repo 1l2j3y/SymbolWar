@@ -175,7 +175,7 @@ class Boss(Sprite):
                     self.SW_game.boss_bullets.add(new_bullet)
             elif bullet_types == 'big':
                 new_bullet = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom,self.type)
-                new_bullet.image =  pygame.font.SysFont(None,200).render('vvv',True,self.settings.boss_bullet_color)
+                new_bullet.image =  self.settings.boss_gamma_big_bullet_image
                 new_bullet.rect = new_bullet.image.get_rect()
                 new_bullet.rect.midbottom = (self.rect.centerx,self.rect.bottom)
                 new_bullet.y = float(new_bullet.rect.y)
@@ -186,7 +186,7 @@ class Boss(Sprite):
             elif bullet_types == 'fast':
                 shootx_points = random.randint(self.rect.left,self.rect.right)
                 for _ in range(5):
-                    new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom)
+                    new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom,self.type)
                     new_bullet.x_speed = 0
                     new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*3
                     self.SW_game.boss_bullets.add(new_bullet)
