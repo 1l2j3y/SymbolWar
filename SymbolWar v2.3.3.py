@@ -6,7 +6,7 @@ import pygame
 from settings import Settings
 from plane import Plane
 from bullet import Bullet
-from enemy import Enemy
+from enemy import Enemy,Boss
 from stats import GameStats
 from button import Button
 from gui import Gui
@@ -29,6 +29,7 @@ class SymbolWar:
         self.bullets = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.stats = GameStats(self)
+        self.boss = pygame.sprite.Group()
         self.gui = Gui(self)
         self.button = Button(self,'Play')
             # 敌机生成计时器
@@ -88,6 +89,7 @@ class SymbolWar:
         if len(self.bullets) < self.settings.max_bullets:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
         self.bullets.update()
@@ -101,7 +103,13 @@ class SymbolWar:
                 injured_enemy.health -= 1
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
-
+        collisions = pygame.sprite.spritecollide(self.boss,self.bullets,True)
+        for hit_boss in collisions.values():
+            for injured_boss in hit_boss:
+                injured_boss.health -= 1
+                if injured_boss.health <= 0:
+                    injured_boss.kill()
+                    self.stats.boss_exist = False
         if collisions:
             for enemy_num in collisions.values():
                 self.stats.score += self.settings.enemy_points*len(enemy_num)
@@ -111,6 +119,8 @@ class SymbolWar:
 
         # 创建敌机
     def create_enemy(self):
+        if self.stats.boss_exist:
+            return
         now_time = pygame.time.get_ticks()
         now_difficulty = (now_time - self.stats.game_start_time) // self.settings.difficulty_up_delay
         self.gui.difficulty_GUI_create()
@@ -129,6 +139,15 @@ class SymbolWar:
             new_enemy.speedup(now_difficulty)
             self.enemies.add(new_enemy)
 
+        # 创建boss
+    def _create_boss(self):
+        now_time = pygame.time.get_ticks() - self.stats.game_start_time
+        self.boss.get_boss_type(now_time)
+        if self.boss.boss_type:
+            new_boss = Boss(self)
+            self.boss.add(new_boss)
+            self.stats.boss_exist = True
+
         # 更新敌机位置并删除已消失的敌机
     def _update_enemies(self):
         self.enemies.update()
@@ -138,6 +157,7 @@ class SymbolWar:
         for enemy in self.enemies.copy():
             if enemy.rect.top >= self.screen.get_rect().height:
                 self.enemies.remove(enemy)
+
         # 检查敌机和飞机之间的碰撞
     def _check_plane_enemy_collisions(self):
         collisions_enemy = pygame.sprite.spritecollideany(self.plane, self.enemies)
@@ -153,6 +173,23 @@ class SymbolWar:
             if self.plane.health <= 0:
                 print("Game Over!")
                 self.stats.game_active = False
+
+        # 检查boss和飞机之间的碰撞
+    def _check_plane_boss_collisions(self):
+        collisions_boss = pygame.sprite.spritecollideany(self.plane, self.boss)
+        if collisions_boss and not self.plane.invincible:
+            print("Plane hit!")
+            self.plane.health -= 1
+            self.gui.image_GUI_create()
+                # 飞机进入无敌状态
+            self.plane.invincible = True
+            self.plane.invincibility_start_time = pygame.time.get_ticks()
+                # 检查游戏结束
+            if self.plane.health <= 0:
+                print("Game Over!")
+                self.stats.game_active = False
+
+
         # 飞机闪烁绘制
     def plane_blink_draw(self):
         self._check_plane_invincibility()
@@ -180,6 +217,7 @@ class SymbolWar:
         self.gui.draw()
         self.bullets.draw(self.screen)
         self.enemies.draw(self.screen)
+        self.boss.draw(self.screen)
         if not self.stats.game_active:
             self.button.button_draw()
         pygame.display.flip()

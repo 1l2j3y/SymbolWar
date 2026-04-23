@@ -32,9 +32,14 @@ class Settings:
         self.enemy_spawn_delay = 1000
         self.enemy_color = (200,0,0)
         self.enemy_health = {'dive':1,'sweep':1,'tank':3}
-
         self.enemy_y_speed = {'dive':1,'sweep':0.5,'tank':0.3}
         self.enemy_x_speed = {'dive':0,'sweep':1,'tank':0.3}
+
+        ## Boss settings
+        self.boss_health = {'alpha':100,'beta':200,'gamma':300}
+        self.boss_y_speed = {'alpha':0,'beta':0,'gamma':0}
+        self.boss_x_speed = {'alpha':0.5,'beta':0,'gamma':0.3}
+        self.boss_color = (200,0,0)
 
         # Button settings
         self.button_color = (100, 100, 100)

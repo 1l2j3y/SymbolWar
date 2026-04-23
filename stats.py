@@ -19,6 +19,7 @@ class GameStats:
             self.highest_score = 0
         self.reset_stats()
         self.game_active = False
+        
         # 重置统计数据
     def reset_stats(self):
         self.score = 0
@@ -26,6 +27,7 @@ class GameStats:
         self.plane.health = self.settings.plane_health
         self.enemy_spawn_delay = self.settings.enemy_spawn_delay
         self.max_enemies =  self.settings.max_enemies
+        self.boss_exist = False
 
         # 清空子弹和敌机
         self.enemies.empty()

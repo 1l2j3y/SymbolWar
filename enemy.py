@@ -77,3 +77,45 @@ class Enemy(Sprite):
             self.enemy_type = 'sweep'
         elif i <= 100:
             self.enemy_type = 'tank'
+
+
+class Boss(Enemy):
+
+    def __init__(self, SW_game):
+        super().__init__(SW_game)
+
+        self.stats = SW_game.stats
+
+        self.get_boss_type()
+        self.health = self.settings.boss_health[self.boss_type]
+
+
+        self.image_config = {'alpha':{'font':pygame.font.SysFont(None,200),'str':'\[v|V|v]/'},
+                            'beta':{'font':pygame.font.SysFont(None,300),'str':'<[***#*>V<*#***]>'},
+                            'gamma':{'font':pygame.font.SysFont(None,250),'str':'\[⚙[V#*#V]⚙]/'}}
+        
+        self.all_boss_image = {}
+
+        for type,config in self.image_config.items():
+            boss_type = type
+            self.boss_font = config['font']
+            self.boss_image_str = config['str']
+            self.boss_image = self.boss_font.render(self.boss_image_str,True,self.settings.boss_color)
+            self.all_boss_image[boss_type] = self.boss_image
+
+        self.y_speed = self.settings.boss_y_speed[self.boss_type]
+        self.x_speed = random.choice([-self.settings.boss_x_speed[self.boss_type], self.settings.boss_x_speed[self.boss_type]])
+
+    def get_boss_type(self,now_time=0):
+        if self.stats.score >= 1000 and now_time >= 60000:
+            self.boss_type = 'alpha'
+        if self.stats.score >= 3000 and now_time >= 120000:
+            self.boss_type = 'beta'
+        if self.stats.score >= 5000 and now_time >= 180000:
+            self.boss_type = 'gamma' 
+
+    def get_enemy_type(self):
+        pass
+
+    def speedup(self,difficulty=0):
+        pass
