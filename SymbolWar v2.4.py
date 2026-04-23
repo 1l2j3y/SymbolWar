@@ -210,7 +210,7 @@ class SymbolWar:
             if self.plane.health <= 0:
                 print("Game Over!")
                 self.stats.game_active = False
-                
+
         # 检查boss子弹和飞机之间的碰撞
     def _check_boss_bullet_collisions(self):
         collisions_boss_bullet = pygame.sprite.spritecollideany(self.plane, self.boss_bullets)
@@ -278,6 +278,7 @@ class SymbolWar:
                 self.check_events()
                 self.plane.update()
                 self._check_bullet_enemy_collisions()
+                self.boss_bullets.update()
                 self._check_boss_bullet_collisions()
                 self.create_enemy()
                 self._update_enemies()
