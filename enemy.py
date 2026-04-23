@@ -1,4 +1,5 @@
 import random
+from tkinter import font
 
 import pygame
 from pygame.sprite import Sprite
@@ -12,11 +13,11 @@ class Enemy(Sprite):
         self.screen = SW_game.screen
         self.settings = SW_game.settings
         self.screen_rect = SW_game.screen.get_rect()
-
+            # 生成随机敌人类型
         self.get_type()
-
+            # 根据敌人类型设置敌人生命值
         self.health = self.settings.enemy_health[self.type]
-
+            # 根据敌人类型设置敌人图像,获取敌人素材库(这个素材库中的图像只是被拿来用的素材,并不是最终的敌人图像,这个素材库类似settings的对应设置)
         self.image_config = {'dive':{'font':pygame.font.SysFont(None,80),'str':'v'},
                             'sweep':{'font':pygame.font.SysFont(None,90),'str':'<>'},
                             'tank':{'font':pygame.font.SysFont(None,100),'str':f'<[{self.health}]>'}}
@@ -30,7 +31,7 @@ class Enemy(Sprite):
             self.enemy_image = self.enemy_font.render(self.enemy_image_str,True,self.settings.enemy_color)
             self.all_enemy_image[type] = self.enemy_image
 
-            # 加载敌机图像并获取其外接矩形
+            # 加载敌机图像并获取其外接矩形(这个图像是最终的敌人图像,它是根据敌人类型和敌人生命值动态生成的)
         self.image = self.all_enemy_image[self.type]
         self.rect = self.image.get_rect()
 
@@ -57,6 +58,13 @@ class Enemy(Sprite):
         if self.x < 0 or self.x > self.screen_rect.width - self.rect.width:
             self.x_speed = -self.x_speed
         self.rect.x = self.x
+
+    def updata_image(self):
+        for type,config in self.image_config.items():
+            font = config['font']
+            if type == 'tank':
+                str = f'<[{self.health}]>'
+                self.image = font.render(str,True,self.settings.enemy_color)
 
         # 增加敌人速度
     def speedup(self,difficulty=0):

@@ -102,6 +102,7 @@ class SymbolWar:
         for hit_enemies in enemy_collisions.values():
             for injured_enemy in hit_enemies:
                 injured_enemy.health -= 1
+                injured_enemy.updata_image()
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
                     self.stats.score += self.settings.enemy_points[injured_enemy.type]
