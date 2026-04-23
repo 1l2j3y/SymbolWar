@@ -23,11 +23,11 @@ class Settings:
         self.plane_blink_color = (255,0,0)
         
         # Bullet settings
-        self.bullet_speed = 1.5
+        self.bullet_speed = 2
         self.max_bullets = 5
         self.bullet_color = (0,0,0)
-        self.boss_bullet_y_speed = {'alpha':1.5,'beta':1,'gamma':1.5}
-        self.boss_bullet_x_speed = {'alpha':0,'beta':1,'gamma':2}
+        self.boss_bullet_y_speed = {'alpha':1.5,'beta':2,'gamma':1.5}
+        self.boss_bullet_x_speed = {'alpha':0,'beta':1.5,'gamma':2}
         self.boss_bullet_image = None
         self.boss_bullet_color = (255,0,0)
         
@@ -43,7 +43,7 @@ class Settings:
         self.boss_health = {'alpha':100,'beta':200,'gamma':300}
         self.boss_y_speed = {'alpha':0,'beta':0,'gamma':0}
         self.boss_x_speed = {'alpha':0.5,'beta':0,'gamma':0.3}
-        self.boss_shoot_delay = {'alpha':1500,'beta':2000,'gamma':1500}
+        self.boss_shoot_delay = {'alpha':1500,'beta':1000,'gamma':2000}
         self.boss_color = (200,0,0)
         self.boss_health_bar_color = (255,0,0)
         self.boss_rest_health_bar_color = (0,255,0)

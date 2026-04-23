@@ -3,7 +3,6 @@ import json
 
 import pygame
 
-import enemy
 from settings import Settings
 from plane import Plane
 from bullet import Bullet
@@ -168,6 +167,9 @@ class SymbolWar:
             new_boss = Boss(self,boss_type)
             self.boss.add(new_boss)
             self.stats.boss_exist = True
+            self.enemies.empty()
+            self.bullets.empty()
+            self.boss_bullets.empty()
 
         # 更新敌机位置并删除已消失的敌机
     def _update_enemies(self):
