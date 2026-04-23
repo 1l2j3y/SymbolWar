@@ -104,12 +104,10 @@ class SymbolWar:
                 injured_enemy.health -= 1
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
-        if enemy_collisions:
-            for enemy_num in enemy_collisions.values():
-                self.stats.score += self.settings.enemy_points*len(enemy_num)
-            if self.stats.score > self.stats.highest_score:
-                self.stats.highest_score = self.stats.score
-            self.gui.score_GUI_create()
+                    self.stats.score += self.settings.enemy_points[injured_enemy.enemy_type]
+                if self.stats.score > self.stats.highest_score:
+                    self.stats.highest_score = self.stats.score
+                self.gui.score_GUI_create()
 
         boss_collisions = pygame.sprite.groupcollide(self.bullets, self.boss, True, False)
         for hit_boss in boss_collisions.values():
