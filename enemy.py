@@ -84,7 +84,7 @@ class Enemy(Sprite):
         i = random.randint(1,100)
         if i <= 50:
             self.type = 'dive'
-        elif i <= 85:
+        elif i <= 90:
             self.type = 'sweep'
         elif i <= 100:
             self.type = 'tank'

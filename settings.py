@@ -23,7 +23,7 @@ class Settings:
         self.plane_blink_color = (255,0,0)
         
         # Bullet settings
-        self.bullet_speed = 1
+        self.bullet_speed = 1.5
         self.max_bullets = 5
         self.bullet_color = (0,0,0)
         
