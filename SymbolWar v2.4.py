@@ -104,7 +104,7 @@ class SymbolWar:
                 injured_enemy.health -= 1
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
-                    self.stats.score += self.settings.enemy_points[injured_enemy.enemy_type]
+                    self.stats.score += self.settings.enemy_points[injured_enemy.type]
                 if self.stats.score > self.stats.highest_score:
                     self.stats.highest_score = self.stats.score
                 self.gui.score_GUI_create()
