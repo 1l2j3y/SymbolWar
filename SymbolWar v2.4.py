@@ -239,6 +239,9 @@ class SymbolWar:
         self.bullets.draw(self.screen)
         self.enemies.draw(self.screen)
         self.boss.draw(self.screen)
+        if self.stats.boss_exist:
+            boss = self.boss.sprites()[0]
+            self.gui.boss_health_GUI_create(boss)
         if not self.stats.game_active:
             self.button.button_draw()
         pygame.display.flip()

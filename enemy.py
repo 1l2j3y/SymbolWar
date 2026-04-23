@@ -125,6 +125,7 @@ class Boss(Sprite):
         self.x_speed = random.choice([-self.settings.boss_x_speed[self.type], self.settings.boss_x_speed[self.type]])
 
             # 这是将boss坐标转换为小数，以便更精确地控制boss的移动
+        self.rect.y = 100
         self.rect.centerx = self.screen_rect.centerx
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)

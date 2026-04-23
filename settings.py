@@ -40,6 +40,8 @@ class Settings:
         self.boss_y_speed = {'alpha':0,'beta':0,'gamma':0}
         self.boss_x_speed = {'alpha':0.5,'beta':0,'gamma':0.3}
         self.boss_color = (200,0,0)
+        self.boss_health_bar_color = (255,0,0)
+        self.boss_rest_health_bar_color = (0,255,0)
 
         # Button settings
         self.button_color = (100, 100, 100)
