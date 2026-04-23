@@ -150,7 +150,7 @@ class Boss(Sprite):
             self.last_shoot_time = now_time
 
     def shoot(self):
-        new_boss_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 80,self.rect.bottom)
+        new_boss_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 100,self.rect.bottom)
         new_boss_bullet2 = BossBullet(self.SW_game,self.rect.centerx,self.rect.bottom)
-        new_boss_bullet3 = BossBullet(self.SW_game,self.rect.centerx + 80,self.rect.bottom)
+        new_boss_bullet3 = BossBullet(self.SW_game,self.rect.centerx + 100,self.rect.bottom)
         self.SW_game.boss_bullets.add(new_boss_bullet1,new_boss_bullet2,new_boss_bullet3)
