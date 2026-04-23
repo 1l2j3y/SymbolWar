@@ -49,19 +49,26 @@ class Gui:
             small_plane.rect.left = plane_num*small_plane.rect.width
             small_plane.rect.top = 0
             self.small_planes.add(small_plane)
-
+            
+        # boss血条创建(含boss名字)
     def boss_health_GUI_create(self,boss):
         if boss is None:
             return
-        health_bar_rect = pygame.Rect(0,0,500,30)
+        health_bar_rect = pygame.Rect(0,0,700,30)
         health_bar_rect.centerx = self.screen_rect.centerx
         health_bar_rect.top = 10
         pygame.draw.rect(self.screen,self.settings.boss_health_bar_color,health_bar_rect)
-        rest_health_rect_width = int(500*(boss.health/self.settings.boss_health[boss.type]))
+        rest_health_rect_width = int(health_bar_rect.width*(boss.health/self.settings.boss_health[boss.type]))
         rest_health_rect = pygame.Rect(0,0,rest_health_rect_width,30)
         rest_health_rect.left = health_bar_rect.left
         rest_health_rect.top = health_bar_rect.top
         pygame.draw.rect(self.screen,self.settings.boss_rest_health_bar_color,rest_health_rect)
+        boss_name_str = boss.type.title()
+        boss_name_image = self.font.render(boss_name_str,True,self.settings.boss_color)
+        boss_name_rect = boss_name_image.get_rect()
+        boss_name_rect.centerx = self.screen_rect.centerx
+        boss_name_rect.top = health_bar_rect.bottom + 10
+        self.screen.blit(boss_name_image,boss_name_rect)
 
         # 绘制GUI
     def draw(self):
