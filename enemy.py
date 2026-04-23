@@ -81,7 +81,7 @@ class Enemy(Sprite):
 
 class Boss(Sprite):
 
-    def __init__(self, SW_game,boss_type):
+    def __init__(self, SW_game,type):
         super().__init__()
 
             # 获取游戏屏幕对象和设置对象
@@ -89,9 +89,9 @@ class Boss(Sprite):
         self.settings = SW_game.settings
         self.screen_rect = SW_game.screen.get_rect()
 
-        self.boss_type = boss_type
+        self.type = type
 
-        self.health = self.settings.boss_health[self.boss_type]
+        self.health = self.settings.boss_health[self.type]
 
         self.image_config = {'alpha':{'font':pygame.font.SysFont(None,200),'str':'\\[v|V|v]/'},
                             'beta':{'font':pygame.font.SysFont(None,300),'str':'<[***#*>V<*#***]>'},
@@ -100,18 +100,18 @@ class Boss(Sprite):
         self.all_boss_image = {}
 
         for type,config in self.image_config.items():
-            boss_type = type
+            type = type
             self.boss_font = config['font']
             self.boss_image_str = config['str']
             self.boss_image = self.boss_font.render(self.boss_image_str,True,self.settings.boss_color)
-            self.all_boss_image[boss_type] = self.boss_image
+            self.all_boss_image[type] = self.boss_image
 
             # 加载boss图像并获取其外接矩形
-        self.image = self.all_boss_image[self.boss_type]
+        self.image = self.all_boss_image[self.type]
         self.rect = self.image.get_rect()
 
-        self.y_speed = self.settings.boss_y_speed[self.boss_type]
-        self.x_speed = random.choice([-self.settings.boss_x_speed[self.boss_type], self.settings.boss_x_speed[self.boss_type]])
+        self.y_speed = self.settings.boss_y_speed[self.type]
+        self.x_speed = random.choice([-self.settings.boss_x_speed[self.type], self.settings.boss_x_speed[self.type]])
 
             # 这是将boss坐标转换为小数，以便更精确地控制boss的移动
         self.rect.centerx = self.screen_rect.centerx
