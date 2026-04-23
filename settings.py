@@ -59,7 +59,7 @@ class Settings:
         self.GUI_font = pygame.font.SysFont(None,48)
 
         # score settings
-        self.enemy_points = {'dive':1000,'sweep':2000,'tank':3000}
+        self.enemy_points = {'dive':10,'sweep':20,'tank':30}
         self.boss_points = 1000
 
         # Difficulty settings
