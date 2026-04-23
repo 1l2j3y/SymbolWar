@@ -3,6 +3,7 @@ import json
 
 import pygame
 
+import enemy
 from settings import Settings
 from plane import Plane
 from bullet import Bullet
@@ -97,28 +98,35 @@ class SymbolWar:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
             # 检查子弹和敌机之间的碰撞
-        collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, False)
-        for hit_enemies in collisions.values():
+        enemy_collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, False)
+        for hit_enemies in enemy_collisions.values():
             for injured_enemy in hit_enemies:
                 injured_enemy.health -= 1
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
-        collisions = pygame.sprite.spritecollide(self.boss,self.bullets,True)
-        for hit_boss in collisions.values():
-            for injured_boss in hit_boss:
-                injured_boss.health -= 1
-                if injured_boss.health <= 0:
-                    injured_boss.kill()
-                    self.stats.boss_exist = False
-        if collisions:
-            for enemy_num in collisions.values():
+        if enemy_collisions:
+            for enemy_num in enemy_collisions.values():
                 self.stats.score += self.settings.enemy_points*len(enemy_num)
             if self.stats.score > self.stats.highest_score:
                 self.stats.highest_score = self.stats.score
             self.gui.score_GUI_create()
 
+        boss_collisions = pygame.sprite.groupcollide(self.bullets, self.boss, True, False)
+        for hit_boss in boss_collisions.values():
+            for injured_boss in hit_boss:
+                injured_boss.health -= 1
+                if injured_boss.health <= 0:
+                    injured_boss.kill()
+                    self.stats.score += self.settings.boss_points
+                    self.stats.boss_exist = False
+                    if self.stats.score > self.stats.highest_score:
+                        self.stats.highest_score = self.stats.score
+                    self.gui.score_GUI_create()
+        
+
         # 创建敌机
     def create_enemy(self):
+        self._create_boss()
         if self.stats.boss_exist:
             return
         now_time = pygame.time.get_ticks()
@@ -141,18 +149,28 @@ class SymbolWar:
 
         # 创建boss
     def _create_boss(self):
+        if self.stats.boss_exist:
+            return
         now_time = pygame.time.get_ticks() - self.stats.game_start_time
-        self.boss.get_boss_type(now_time)
-        if self.boss.boss_type:
-            new_boss = Boss(self)
+        if self.stats.score >= 1000 and now_time >= 6000:
+            boss_type = 'alpha'
+        if self.stats.score >= 3000 and now_time >= 120000:
+            boss_type = 'beta'
+        if self.stats.score >= 5000 and now_time >= 180000:
+            boss_type = 'gamma' 
+            
+        if boss_type:
+            new_boss = Boss(self,boss_type)
             self.boss.add(new_boss)
             self.stats.boss_exist = True
 
         # 更新敌机位置并删除已消失的敌机
     def _update_enemies(self):
         self.enemies.update()
+        self.boss.update()
 
         self._check_plane_enemy_collisions()
+        self._check_plane_boss_collisions()
 
         for enemy in self.enemies.copy():
             if enemy.rect.top >= self.screen.get_rect().height:
