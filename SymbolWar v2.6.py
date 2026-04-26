@@ -190,7 +190,7 @@ class SymbolWar:
     def _check_plane_enemy_collisions(self):
         collisions_enemy = pygame.sprite.spritecollideany(self.plane, self.enemies)
         if collisions_enemy and not self.plane.invincible:
-            print("Plane hit!")
+            self.settings.plane_hit_sound.play()
             self.enemies.remove(collisions_enemy)
             self.plane.health -= 1
             self.gui.image_GUI_create()
@@ -206,7 +206,7 @@ class SymbolWar:
     def _check_plane_boss_collisions(self):
         collisions_boss = pygame.sprite.spritecollideany(self.plane, self.boss)
         if collisions_boss and not self.plane.invincible:
-            print("Plane hit!")
+            self.settings.plane_hit_sound.play()
             self.plane.health -= 1
             self.gui.image_GUI_create()
                 # 飞机进入无敌状态
@@ -221,7 +221,7 @@ class SymbolWar:
     def _check_boss_bullet_collisions(self):
         collisions_boss_bullet = pygame.sprite.spritecollideany(self.plane, self.boss_bullets)
         if collisions_boss_bullet and not self.plane.invincible:
-            print("Plane hit!")
+            self.settings.plane_hit_sound.play()
             self.boss_bullets.remove(collisions_boss_bullet)
             self.plane.health -= 1
             self.gui.image_GUI_create()
