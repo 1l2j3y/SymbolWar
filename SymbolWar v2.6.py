@@ -15,13 +15,12 @@ class SymbolWar:
     
     def __init__(self):
         pygame.init()
+            # 创建游戏屏幕对象
+        self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN)
             # 创建设置对象
         self.settings = Settings()
-            # 创建游戏屏幕对象， 并对屏幕进行一些调整
-        self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
-        self.settings.screen_width = self.screen_rect.width
-        self.settings.screen_height = self.screen_rect.height
+        self.settings.zoom_bg_image(self.screen_rect)
         pygame.display.set_caption("Plane War")
         self.bg_color = (self.settings.bg_color)
             # 创建飞机对象、子弹编组和敌机编组
@@ -252,7 +251,8 @@ class SymbolWar:
 
         # 刷新屏幕
     def update_screen(self):
-        self.screen.fill(self.bg_color)
+        self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y1))
+        self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y2))
         self.plane_blink_draw()
         self.gui.draw()
         self.bullets.draw(self.screen)
@@ -267,9 +267,19 @@ class SymbolWar:
             self.button.button_draw()
         pygame.display.flip()
 
+    def _bg_scroll(self):
+        scroll_speed = self.settings.bg_scroll_speed
+        self.settings.bg_y1 += scroll_speed
+        self.settings.bg_y2 += scroll_speed
+        if self.settings.bg_y1 > self.screen_rect.height:
+           self.settings.bg_y1 = -self.screen_rect.height
+        if self.settings.bg_y2 > self.screen_rect.height:
+           self.settings.bg_y2 = -self.screen_rect.height
+
         # 游戏主循环
     def run_game(self):
             while True:
+                pygame.mixer.bgm.play(-1)
                 self.check_events()
                 self.update_screen()
                 if self.stats.game_active:
@@ -287,6 +297,7 @@ class SymbolWar:
                 self._update_enemies()
                 if not self.stats.game_active:
                     break
+                self._bg_scroll()
                 self.update_screen()
 
 if __name__ == "__main__":

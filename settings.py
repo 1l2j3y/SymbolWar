@@ -3,15 +3,21 @@ from pathlib import Path
 import pygame
 
 base_path = Path(__file__).parent
-file_path = base_path/'images.py'
 
 class Settings:
 
     def __init__(self):
-        # Screen settings
-        self.screen_width = 800
-        self.screen_height = 600
-        self.bg_color = (255,255,255)
+        # Backgound settings
+        self.bg_image = pygame.image.load(base_path / 'assets' / 'bg.png').convert()
+        self.bg_y1 = 0
+        self.bg_y2 = None
+        self.bg_scroll_speed = 0.3
+
+        # Music settings
+        pygame.mixer.init()
+        bgm_path = base_path / 'assets' / 'bgm.ogg'
+        pygame.mixer.bgm.load(bgm_path)
+        pygame.mixer.bgm.set_volume(0.5)
 
         # Plane settings
         self.plane_speed = 2
@@ -89,4 +95,8 @@ class Settings:
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)
         self.boss_bullet_image = self.boss_bullet_font.render(self.boss_bullet_image_str,True,self.boss_bullet_color)
-        self.boss_gamma_big_bullet_image = self.boss_gamma_big_bullet_font.render(self.boss_gamma_big_bullet_image_str,True,self.boss_bullet_color)
+        self.boss_gamma_big_bullet_image = self.boss_gamma_big_bullet_font.render(self.boss_gamma_big_bullet_image_str,
+                                                                                  True,self.boss_bullet_color)
+    def zoom_bg_image(self,screen_rect):
+        self.bg_image = pygame.transform.smoothscale(self.bg_image,(screen_rect.width,screen_rect.height))
+        self.bg_y2 = -screen_rect.height
