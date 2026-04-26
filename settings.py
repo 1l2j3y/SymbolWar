@@ -2,8 +2,6 @@ from pathlib import Path
 
 import pygame
 
-import enemy
-
 base_path = Path(__file__).parent
 
 class Settings:
@@ -19,13 +17,13 @@ class Settings:
         # Backgroundmusic settings
         pygame.mixer.init()
         pygame.mixer.music.load(base_path / 'assets' / 'bgm.ogg')
-        pygame.mixer.music.set_volume(0)
+        pygame.mixer.music.set_volume(0.2)
 
         # Sound settings
         self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
-        self.shoot_sound.set_volume(0.5)
+        self.shoot_sound.set_volume(0.3)
         self.enemy_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'enemy_killed.wav')
-        self.enemy_killed_sound.set_volume(1)
+        self.enemy_killed_sound.set_volume(0.5)
         self.boss_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'boss_killed.wav')
         self.boss_killed_sound.set_volume(1)
 
@@ -94,7 +92,7 @@ class Settings:
         self.boss_bullet_font = pygame.font.SysFont(None,100)
         self.boss_gamma_big_bullet_font = pygame.font.SysFont(None,200)
                            
-        self.plane_image_str = '(^)'
+        self.plane_image_str = '/(^)\\'
         self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
         self.boss_bullet_image_str = 'o'

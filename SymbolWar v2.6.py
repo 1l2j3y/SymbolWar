@@ -105,6 +105,7 @@ class SymbolWar:
                 injured_enemy.update_image()
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
+                    self.settings.enemy_killed_sound.play()
                     self.stats.score += self.settings.enemy_points[injured_enemy.type]
                 if self.stats.score > self.stats.highest_score:
                     self.stats.highest_score = self.stats.score
@@ -118,8 +119,13 @@ class SymbolWar:
                     injured_boss.kill()
                     self.boss_bullets.empty()
                     self.stats.score += self.settings.boss_points
-                    self.stats.boss_exist = False
+                    start_time = pygame.time.get_ticks()
+                    now_time = pygame.time.get_ticks()
                     self.settings.boss_killed_sound.play()
+                    while now_time - start_time >= 2:
+                        now_time = pygame.time.get_ticks()
+                    self.stats.boss_exist = False
+                    
                     if self.stats.score > self.stats.highest_score:
                         self.stats.highest_score = self.stats.score
                     self.gui.score_GUI_create()
@@ -183,7 +189,6 @@ class SymbolWar:
         for enemy in self.enemies.copy():
             if enemy.rect.top >= self.screen.get_rect().height:
                 self.enemies.remove(enemy)
-                self.settings.enemy_killed_sound.play() 
 
         # 检查敌机和飞机之间的碰撞
     def _check_plane_enemy_collisions(self):
