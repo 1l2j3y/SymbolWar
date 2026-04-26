@@ -176,7 +176,7 @@ class SymbolWar:
             self.enemies.empty()
             self.bullets.empty()
             self.boss_bullets.empty()
-            pygame.mixer.music.load(self.settings.bgm_path)
+            pygame.mixer.music.load(self.settings.boss_bgm_path)
             pygame.mixer.music.play(-1)
 
         # 更新敌机位置并删除已消失的敌机
