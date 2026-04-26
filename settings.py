@@ -21,13 +21,15 @@ class Settings:
 
         # Sound settings
         self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
-        self.shoot_sound.set_volume(0.3)
+        self.shoot_sound.set_volume(0.2)
         self.enemy_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'enemy_killed.wav')
-        self.enemy_killed_sound.set_volume(0.5)
+        self.enemy_killed_sound.set_volume(0.3)
         self.boss_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'boss_killed.wav')
         self.boss_killed_sound.set_volume(1)
         self.plane_hit_sound = pygame.mixer.Sound(base_path / 'assets' / 'plane_hit.wav')
         self.plane_hit_sound.set_volume(0.5)
+        self.game_over_sound = pygame.mixer.Sound(base_path / 'assets' / 'game_over.wav')
+        self.game_over_sound.set_volume(1)
 
         # Plane settings
         self.plane_speed = 2

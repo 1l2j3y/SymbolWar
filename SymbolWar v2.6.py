@@ -199,7 +199,7 @@ class SymbolWar:
             self.plane.invincibility_start_time = pygame.time.get_ticks()
                 # 检查游戏结束
             if self.plane.health <= 0:
-                print("Game Over!")
+                self.settings.game_over_sound.play()
                 self.stats.game_active = False
 
         # 检查boss和飞机之间的碰撞
@@ -214,7 +214,7 @@ class SymbolWar:
             self.plane.invincibility_start_time = pygame.time.get_ticks()
                 # 检查游戏结束
             if self.plane.health <= 0:
-                print("Game Over!")
+                self.settings.game_over_sound.play()
                 self.stats.game_active = False
 
         # 检查boss子弹和飞机之间的碰撞
@@ -230,7 +230,7 @@ class SymbolWar:
             self.plane.invincibility_start_time = pygame.time.get_ticks()
             # 检查游戏结束
             if self.plane.health <= 0:
-                print("Game Over!")
+                self.settings.game_over_sound.play()
                 self.stats.game_active = False
 
         # 飞机闪烁绘制
