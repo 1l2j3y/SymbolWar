@@ -61,7 +61,7 @@ class SymbolWar:
         elif event.key == pygame.K_DOWN:
             self.plane.moving_down = True
         elif event.key == pygame.K_SPACE:
-            self.fire_bullet()
+            self.shoot_bullet()
         elif event.key == pygame.K_ESCAPE:
             with open("highest.json","w",encoding="utf-8") as f:
                 json.dump(self.stats.highest_score,f,indent=2)
@@ -85,10 +85,11 @@ class SymbolWar:
 
 
         # 开火
-    def fire_bullet(self):
+    def shoot_bullet(self):
         if len(self.bullets) < self.settings.max_bullets:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            self.settings.shoot_sound.play()
 
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
@@ -108,7 +109,7 @@ class SymbolWar:
                 if self.stats.score > self.stats.highest_score:
                     self.stats.highest_score = self.stats.score
                 self.gui.score_GUI_create()
-
+            # 检查子弹和boss之间的碰撞
         boss_collisions = pygame.sprite.groupcollide(self.bullets, self.boss, True, False)
         for hit_boss in boss_collisions.values():
             for injured_boss in hit_boss:
@@ -118,6 +119,7 @@ class SymbolWar:
                     self.boss_bullets.empty()
                     self.stats.score += self.settings.boss_points
                     self.stats.boss_exist = False
+                    self.settings.boss_killed_sound.play()
                     if self.stats.score > self.stats.highest_score:
                         self.stats.highest_score = self.stats.score
                     self.gui.score_GUI_create()
@@ -181,6 +183,7 @@ class SymbolWar:
         for enemy in self.enemies.copy():
             if enemy.rect.top >= self.screen.get_rect().height:
                 self.enemies.remove(enemy)
+                self.settings.enemy_killed_sound.play() 
 
         # 检查敌机和飞机之间的碰撞
     def _check_plane_enemy_collisions(self):
@@ -295,9 +298,9 @@ class SymbolWar:
                 self._check_boss_bullet_collisions()
                 self.create_enemy()
                 self._update_enemies()
+                self._bg_scroll()
                 if not self.stats.game_active:
                     break
-                self._bg_scroll()
                 self.update_screen()
 
 if __name__ == "__main__":

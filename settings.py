@@ -2,23 +2,32 @@ from pathlib import Path
 
 import pygame
 
+import enemy
+
 base_path = Path(__file__).parent
 
 class Settings:
 
     def __init__(self):
-        # Backgound settings
+        # Background settings
         self.bg_image = pygame.image.load(base_path / 'assets' / 'bg.png').convert()
         self.bg_y1 = 0
         self.bg_y2 = None
         self.bg_scroll_speed = 0.3
         self.bg_color = (255,255,255)
 
-        # Music settings
+        # Backgroundmusic settings
         pygame.mixer.init()
-        bgm_path = base_path / 'assets' / 'bgm.ogg'
-        pygame.mixer.music.load(bgm_path)
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.load(base_path / 'assets' / 'bgm.ogg')
+        pygame.mixer.music.set_volume(0)
+
+        # Sound settings
+        self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
+        self.shoot_sound.set_volume(0.5)
+        self.enemy_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'enemy_killed.wav')
+        self.enemy_killed_sound.set_volume(1)
+        self.boss_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'boss_killed.wav')
+        self.boss_killed_sound.set_volume(1)
 
         # Plane settings
         self.plane_speed = 2
