@@ -122,7 +122,8 @@ class SymbolWar:
                     self.boss_bullets.empty()
                     self.stats.score += self.settings.boss_points
                     self.stats.boss_exist = False
-                    self.stats.bgm_path = self.settings.bgm_path
+                    pygame.mixer.music.load(self.settings.bgm_path)
+                    pygame.mixer.music.play(-1)
                     
                     if self.stats.score > self.stats.highest_score:
                         self.stats.highest_score = self.stats.score
@@ -175,7 +176,8 @@ class SymbolWar:
             self.enemies.empty()
             self.bullets.empty()
             self.boss_bullets.empty()
-            self.stats.bgm_path = self.settings.boss_bgm_path
+            pygame.mixer.music.load(self.settings.bgm_path)
+            pygame.mixer.music.play(-1)
 
         # 更新敌机位置并删除已消失的敌机
     def _update_enemies(self):
@@ -294,7 +296,7 @@ class SymbolWar:
                 else:
                     pygame.mouse.set_visible(True)   
 
-            pygame.mixer.music.load(self.stats.bgm_path)
+            pygame.mixer.music.load(self.settings.bgm_path)
             pygame.mixer.music.set_volume(self.settings.bgm_volume)
             pygame.mixer.music.play(-1)
 
