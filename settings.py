@@ -12,12 +12,13 @@ class Settings:
         self.bg_y1 = 0
         self.bg_y2 = None
         self.bg_scroll_speed = 0.3
+        self.bg_color = (255,255,255)
 
         # Music settings
         pygame.mixer.init()
         bgm_path = base_path / 'assets' / 'bgm.ogg'
-        pygame.mixer.bgm.load(bgm_path)
-        pygame.mixer.bgm.set_volume(0.5)
+        pygame.mixer.music.load(bgm_path)
+        pygame.mixer.music.set_volume(0.5)
 
         # Plane settings
         self.plane_speed = 2

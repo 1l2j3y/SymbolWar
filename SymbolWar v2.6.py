@@ -279,7 +279,7 @@ class SymbolWar:
         # 游戏主循环
     def run_game(self):
             while True:
-                pygame.mixer.bgm.play(-1)
+                pygame.mixer.music.play(-1)
                 self.check_events()
                 self.update_screen()
                 if self.stats.game_active:
