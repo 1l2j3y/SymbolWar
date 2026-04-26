@@ -116,14 +116,10 @@ class SymbolWar:
             for injured_boss in hit_boss:
                 injured_boss.health -= 1
                 if injured_boss.health <= 0:
+                    self.settings.boss_killed_sound.play()
                     injured_boss.kill()
                     self.boss_bullets.empty()
                     self.stats.score += self.settings.boss_points
-                    start_time = pygame.time.get_ticks()
-                    now_time = pygame.time.get_ticks()
-                    self.settings.boss_killed_sound.play()
-                    while now_time - start_time >= 2:
-                        now_time = pygame.time.get_ticks()
                     self.stats.boss_exist = False
                     
                     if self.stats.score > self.stats.highest_score:
