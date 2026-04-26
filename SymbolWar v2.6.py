@@ -294,9 +294,9 @@ class SymbolWar:
                 else:
                     pygame.mouse.set_visible(True)   
 
-                pygame.mixer.music.load(self.stats.bgm_path)
-                pygame.mixer.music.set_volume(0.2)
-                pygame.mixer.music.play(-1)
+            pygame.mixer.music.load(self.stats.bgm_path)
+            pygame.mixer.music.set_volume(self.settings.bgm_volume)
+            pygame.mixer.music.play(-1)
 
             while True:
                 self.check_events()

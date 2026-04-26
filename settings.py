@@ -17,6 +17,7 @@ class Settings:
         # Backgroundmusic settings
         self.bgm_path = base_path / 'assets' / 'bgm.ogg'
         self.boss_bgm_path = base_path / 'assets' / 'boss_bgm.ogg'
+        self.bgm_volume = 0.2
 
         # Sound settings
         self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
