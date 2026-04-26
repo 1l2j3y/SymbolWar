@@ -20,6 +20,7 @@ class GameStats:
         self.reset_stats()
         self.game_active = False
         self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
+        self.bgm_path = self.settings.bgm_path
         
         # 重置统计数据
     def reset_stats(self):
@@ -30,6 +31,7 @@ class GameStats:
         self.max_enemies =  self.settings.max_enemies
         self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
         self.boss_exist = False
+        self.bgm_path = self.settings.bgm_path
 
         # 清空子弹和敌机
         self.enemies.empty()

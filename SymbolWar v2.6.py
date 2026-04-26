@@ -15,6 +15,7 @@ class SymbolWar:
     
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
             # 创建游戏屏幕对象
         self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN)
             # 创建设置对象
@@ -121,6 +122,7 @@ class SymbolWar:
                     self.boss_bullets.empty()
                     self.stats.score += self.settings.boss_points
                     self.stats.boss_exist = False
+                    self.stats.bgm_path = self.settings.bgm_path
                     
                     if self.stats.score > self.stats.highest_score:
                         self.stats.highest_score = self.stats.score
@@ -173,6 +175,7 @@ class SymbolWar:
             self.enemies.empty()
             self.bullets.empty()
             self.boss_bullets.empty()
+            self.stats.bgm_path = self.settings.boss_bgm_path
 
         # 更新敌机位置并删除已消失的敌机
     def _update_enemies(self):
@@ -283,14 +286,17 @@ class SymbolWar:
         # 游戏主循环
     def run_game(self):
             while True:
-                pygame.mixer.music.play(-1)
                 self.check_events()
                 self.update_screen()
                 if self.stats.game_active:
                     pygame.mouse.set_visible(False)
                     break
                 else:
-                    pygame.mouse.set_visible(True)              
+                    pygame.mouse.set_visible(True)   
+
+                pygame.mixer.music.load(self.stats.bgm_path)
+                pygame.mixer.music.set_volume(0.2)
+                pygame.mixer.music.play(-1)
 
             while True:
                 self.check_events()
@@ -300,6 +306,7 @@ class SymbolWar:
                 self.create_enemy()
                 self._update_enemies()
                 self._bg_scroll()
+
                 if not self.stats.game_active:
                     break
                 self.update_screen()

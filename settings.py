@@ -15,9 +15,8 @@ class Settings:
         self.bg_color = (255,255,255)
 
         # Backgroundmusic settings
-        pygame.mixer.init()
-        pygame.mixer.music.load(base_path / 'assets' / 'bgm.ogg')
-        pygame.mixer.music.set_volume(0.2)
+        self.bgm_path = base_path / 'assets' / 'bgm.ogg'
+        self.boss_bgm_path = base_path / 'assets' / 'boss_bgm.ogg'
 
         # Sound settings
         self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
