@@ -86,7 +86,7 @@ class Settings:
         self.enemy_maxnum_up = 1
         self.enemy_spawn_delay_down_coefficient = 0.9
         self.enemy_spawn_min_delay = 200
-        self.difficulty_up_delay= 20000
+        self.difficulty_up_delay= 30000
 
         # Images settings
         self.plane_font = pygame.font.SysFont(None,100)
@@ -122,7 +122,8 @@ class Settings:
             'Destroy enemies to earn points.',
             f'Difficulty increases every {self.difficulty_up_delay//1000} seconds.',
             'Bosses will appear at higher difficulties and high scores.',
-            'Good luck and have fun!'
+            'Good luck and have fun!',
+            'Press Esc to exit the game.'
         ]
         self.help_window = pygame.Surface(self.help_window_size, pygame.SRCALPHA)
         self.help_window.fill(self.help_bg_color)
