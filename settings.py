@@ -102,7 +102,7 @@ class Settings:
             'Press Esc to exit the game.',
             'Click anywhere to close this help window.',
             '本帮助界面没有汉化,请不要输入114514并回车']
-        self.help_text_ch = ["你终究还是输入了这串恶臭的数字",
+        self.help_text_ch = ["你终究还是为了汉化而输入了这串恶臭的数字",
                             "方向键移动, 空格键开火, ESC退出",
                             "半分钟加一次难度",
                             " boss会在分数和时间都达到的时候出现",
