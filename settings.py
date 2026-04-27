@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 
 import pygame
 
@@ -21,7 +22,7 @@ class Settings:
 
         # Sound settings
         self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
-        self.shoot_sound.set_volume(0.2)
+        self.shoot_sound.set_volume(0.1)
         self.enemy_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'enemy_killed.wav')
         self.enemy_killed_sound.set_volume(0.3)
         self.boss_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'boss_killed.wav')
@@ -30,6 +31,8 @@ class Settings:
         self.plane_hit_sound.set_volume(0.5)
         self.game_over_sound = pygame.mixer.Sound(base_path / 'assets' / 'game_over.wav')
         self.game_over_sound.set_volume(1)
+        self.translate_sound = pygame.mixer.Sound(base_path / 'assets' / 'translate.wav')
+        self.translate_sound.set_volume(1)
 
         # Plane settings
         self.plane_speed = 2
@@ -89,22 +92,30 @@ class Settings:
         self.difficulty_up_delay= 30000
 
         # Help settings
-        self.help_window_size = (600, 350)
-        self.help_bg_color = (255, 255, 255)
-        self.help_text_color = (0, 0, 0)
-        self.help_text_font = pygame.font.SysFont(None, 30)
-        self.help_title_font = pygame.font.SysFont(None, 40)
-        
-        self.help_text_lines = [
+        self.help_text_en = [
             'Use arrow keys to move the plane.',
             'Press space to shoot.',
             'Destroy enemies to earn points.',
-            f'Difficulty increases every {self.difficulty_up_delay//1000} seconds.',
+            'Difficulty increases every 30 seconds.',
             'Bosses will appear at higher difficulties and high scores.',
             'Good luck and have fun!',
             'Press Esc to exit the game.',
-            'Click anywhere to close this help window.'
-        ]
+            'Click anywhere to close this help window.',
+            '本帮助界面没有汉化,请不要输入114514并回车']
+        self.help_text_ch = ["你终究还是输入了这串恶臭的数字",
+                            "方向键移动, 空格键开火, ESC退出",
+                            "半分钟加一次难度",
+                            " boss会在分数和时间都达到的时候出现",
+                            "这就是全部内容了",
+                            "建议不要外放,音效比较抽象"]
+        
+        self.help_window_size = (650, 350)
+        self.help_bg_color = (255, 255, 255)
+        self.help_text_color = (0, 0, 0)
+        self.help_text_font = pygame.font.SysFont('SimHei', 20)
+        self.help_title_font = pygame.font.SysFont(None, 40)
+        
+        self.help_text_lines = self.help_text_en
         self.help_window = pygame.Surface(self.help_window_size)
         self.help_window.fill(self.help_bg_color)
         self.help_window_rect = self.help_window.get_rect()
@@ -121,7 +132,7 @@ class Settings:
         self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
         self.boss_bullet_image_str = 'o'
-        self.boss_gamma_big_bullet_image_str = 'vvv'
+        self.boss_gamma_big_bullet_image_str = 'OOO'
 
         self.help_text_title_str = 'Welcome to Symbol War !'
 
@@ -135,6 +146,9 @@ class Settings:
         
         self.help_text_title_image = self.help_title_font.render(self.help_text_title_str,True,self.help_text_color)
         self.help_text_title_rect = self.help_text_title_image.get_rect()
+
+        # Language settings
+        self.language = 'en'
 
     def zoom_bg_image(self,screen_rect):
         self.bg_image = pygame.transform.smoothscale(self.bg_image,(screen_rect.width,screen_rect.height))

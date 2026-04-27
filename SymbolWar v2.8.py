@@ -36,6 +36,7 @@ class SymbolWar:
         self.help_button = Button(self,'Help')
         self.help_button.rect.centery += 100
         self.help_button.button_text_draw('Help')
+        self.password = ''
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
 
@@ -71,6 +72,15 @@ class SymbolWar:
             with open("highest.json","w",encoding="utf-8") as f:
                 json.dump(self.stats.highest_score,f,indent=2)
             sys.exit()
+        if not self.stats.game_active:
+            if event.key in (pygame.K_0,pygame.K_1,pygame.K_2,pygame.K_3,pygame.K_4,pygame.K_5,pygame.K_6,pygame.K_7,pygame.K_8,pygame.K_9):
+                self.password += event.unicode
+            elif event.key == pygame.K_RETURN:
+                if self.password == '114514':
+                    self.settings.help_text_lines = self.settings.help_text_ch
+                    self.password = ''
+                    self.settings.translate_sound.play()
+                
         # 检测键盘松键事件类型
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
