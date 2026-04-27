@@ -298,11 +298,13 @@ class SymbolWar:
     def draw_help(self):
         if self.stats.help_show:
             self.screen.blit(self.settings.help_window, (0, 0))
-            text_y = 30
+            self.settings.help_text_title_rect.centerx = self.settings.help_window_rect.centerx
+            self.screen.blit(self.settings.help_text_title_image, self.settings.help_text_title_rect)
+            text_y = 30 + self.settings.help_text_title_rect.height
             for line in self.settings.help_text_lines:
-                help_text_image = self.settings.help_font.render(line, True, self.settings.help_text_color)
+                help_text_image = self.settings.help_text_font.render(line, True, self.settings.help_text_color)
                 help_text_rect = help_text_image.get_rect()
-                help_text_rect.x = 30
+                help_text_rect.x = 20
                 help_text_rect.y = text_y
                 self.screen.blit(help_text_image, help_text_rect)
                 text_y += 30

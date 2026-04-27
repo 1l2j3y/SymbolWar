@@ -88,6 +88,27 @@ class Settings:
         self.enemy_spawn_min_delay = 200
         self.difficulty_up_delay= 30000
 
+        # Help settings
+        self.help_window_size = (600, 350)
+        self.help_bg_color = (255, 255, 255)
+        self.help_text_color = (0, 0, 0)
+        self.help_text_font = pygame.font.SysFont(None, 30)
+        self.help_title_font = pygame.font.SysFont(None, 40)
+        
+        self.help_text_lines = [
+            'Use arrow keys to move the plane.',
+            'Press space to shoot.',
+            'Destroy enemies to earn points.',
+            f'Difficulty increases every {self.difficulty_up_delay//1000} seconds.',
+            'Bosses will appear at higher difficulties and high scores.',
+            'Good luck and have fun!',
+            'Press Esc to exit the game.',
+            'Click anywhere to close this help window.'
+        ]
+        self.help_window = pygame.Surface(self.help_window_size)
+        self.help_window.fill(self.help_bg_color)
+        self.help_window_rect = self.help_window.get_rect()
+
         # Images settings
         self.plane_font = pygame.font.SysFont(None,100)
         self.plane_blink_font = pygame.font.SysFont(None,60)
@@ -101,7 +122,9 @@ class Settings:
         self.bullet_image_str = '!'
         self.boss_bullet_image_str = 'o'
         self.boss_gamma_big_bullet_image_str = 'vvv'
-        
+
+        self.help_text_title_str = 'Welcome to Symbol War !'
+
         self.plane_image = self.plane_font.render(self.plane_image_str,True,self.plane_color)
         self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_blink_color)
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
@@ -110,24 +133,8 @@ class Settings:
         self.boss_gamma_big_bullet_image = self.boss_gamma_big_bullet_font.render(self.boss_gamma_big_bullet_image_str,
                                                                                   True,self.boss_bullet_color)
         
-        # Help settings
-        self.help_window_size = (600, 300)
-        self.help_bg_color = (255, 255, 255, 180)
-        self.help_text_color = (0, 0, 0)
-        self.help_font = pygame.font.SysFont(None, 30)
-        self.help_text_lines = [
-            'Welcome to Symbol War!',
-            'Use arrow keys to move the plane.',
-            'Press space to shoot.',
-            'Destroy enemies to earn points.',
-            f'Difficulty increases every {self.difficulty_up_delay//1000} seconds.',
-            'Bosses will appear at higher difficulties and high scores.',
-            'Good luck and have fun!',
-            'Press Esc to exit the game.',
-            'Click anywhere to close this help window.'
-        ]
-        self.help_window = pygame.Surface(self.help_window_size, pygame.SRCALPHA)
-        self.help_window.fill(self.help_bg_color)
+        self.help_text_title_image = self.help_title_font.render(self.help_text_title_str,True,self.help_text_color)
+        self.help_text_title_rect = self.help_text_title_image.get_rect()
 
     def zoom_bg_image(self,screen_rect):
         self.bg_image = pygame.transform.smoothscale(self.bg_image,(screen_rect.width,screen_rect.height))
