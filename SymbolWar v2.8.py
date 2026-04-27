@@ -40,6 +40,8 @@ class SymbolWar:
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
 
+        self.clock = pygame.time.Clock()
+
 
         # 检测键鼠事件
     def check_events(self):
@@ -328,7 +330,7 @@ class SymbolWar:
                     pygame.mouse.set_visible(False)
                     break
                 else:
-                    pygame.mouse.set_visible(True)   
+                    pygame.mouse.set_visible(True)
 
             pygame.mixer.music.load(self.settings.bgm_path)
             pygame.mixer.music.set_volume(self.settings.bgm_volume)
@@ -346,6 +348,7 @@ class SymbolWar:
                 if not self.stats.game_active:
                     break
                 self.update_screen()
+                self.clock.tick(60)
 
 if __name__ == "__main__":
     symbol_war = SymbolWar()
