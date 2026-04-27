@@ -35,7 +35,7 @@ class Settings:
         self.translate_sound.set_volume(1)
 
         # Plane settings
-        self.plane_speed = 2
+        self.plane_speed = 12
         self.plane_health = 3
         self.plane_blink_time = 200
         self.plane_invincibility_duration = 2000
@@ -44,11 +44,11 @@ class Settings:
         self.plane_blink_color = (255,0,0)
         
         # Bullet settings
-        self.bullet_speed = 2
-        self.max_bullets = 5
+        self.bullet_speed = 15
+        self.max_bullets = 50
         self.bullet_color = (0,0,0)
-        self.boss_bullet_y_speed = {'alpha':2,'beta':1.5,'gamma':1.5}
-        self.boss_bullet_x_speed = {'alpha':0,'beta':1.5,'gamma':2}
+        self.boss_bullet_y_speed = {'alpha':10,'beta':5,'gamma':10}
+        self.boss_bullet_x_speed = {'alpha':0,'beta':10,'gamma':10}
         self.boss_bullet_image = None
         self.boss_bullet_color = (255,0,0)
         
@@ -57,13 +57,13 @@ class Settings:
         self.enemy_spawn_delay = 1000
         self.enemy_color = (200,0,0)
         self.enemy_health = {'dive':1,'sweep':1,'tank':3}
-        self.enemy_y_speed = {'dive':1,'sweep':0.5,'tank':0.3}
-        self.enemy_x_speed = {'dive':0,'sweep':1,'tank':0.3}
+        self.enemy_y_speed = {'dive':6,'sweep':5,'tank':3}
+        self.enemy_x_speed = {'dive':0,'sweep':6,'tank':3}
 
         ## Boss settings
         self.boss_health = {'alpha':100,'beta':200,'gamma':300}
         self.boss_y_speed = {'alpha':0,'beta':0,'gamma':0}
-        self.boss_x_speed = {'alpha':0.5,'beta':0,'gamma':0.3}
+        self.boss_x_speed = {'alpha':3,'beta':0,'gamma':2}
         self.boss_shoot_delay = {'alpha':1500,'beta':1000,'gamma':2000}
         self.boss_color = (200,0,0)
         self.boss_health_bar_color = (255,0,0)
@@ -84,8 +84,8 @@ class Settings:
         self.boss_points = 1000
 
         # Difficulty settings
-        self.enemy_x_speed_up = 0.1
-        self.enemy_y_speed_up = 0.1
+        self.enemy_x_speed_up = 0.3
+        self.enemy_y_speed_up = 0.3
         self.enemy_maxnum_up = 1
         self.enemy_spawn_delay_down_coefficient = 0.9
         self.enemy_spawn_min_delay = 200
@@ -130,7 +130,7 @@ class Settings:
                            
         self.plane_image_str = '/(^)\\'
         self.plane_blink_image_str = '(x_x)'
-        self.bullet_image_str = '!'
+        self.bullet_image_str = '!!!!!!!!!!!'
         self.boss_bullet_image_str = 'o'
         self.boss_gamma_big_bullet_image_str = 'OOO'
 
