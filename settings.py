@@ -123,7 +123,8 @@ class Settings:
             f'Difficulty increases every {self.difficulty_up_delay//1000} seconds.',
             'Bosses will appear at higher difficulties and high scores.',
             'Good luck and have fun!',
-            'Press Esc to exit the game.'
+            'Press Esc to exit the game.',
+            'Click anywhere to close this help window.'
         ]
         self.help_window = pygame.Surface(self.help_window_size, pygame.SRCALPHA)
         self.help_window.fill(self.help_bg_color)
