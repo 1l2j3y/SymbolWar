@@ -109,6 +109,24 @@ class Settings:
         self.boss_bullet_image = self.boss_bullet_font.render(self.boss_bullet_image_str,True,self.boss_bullet_color)
         self.boss_gamma_big_bullet_image = self.boss_gamma_big_bullet_font.render(self.boss_gamma_big_bullet_image_str,
                                                                                   True,self.boss_bullet_color)
+        
+        # Help settings
+        self.help_window_size = (600, 300)
+        self.help_bg_color = (255, 255, 255, 180)
+        self.help_text_color = (0, 0, 0)
+        self.help_font = pygame.font.SysFont(None, 30)
+        self.help_text_lines = [
+            'Welcome to Symbol War!',
+            'Use arrow keys to move the plane.',
+            'Press space to shoot.',
+            'Destroy enemies to earn points.',
+            f'Difficulty increases every {self.difficulty_up_delay//1000} seconds.',
+            'Bosses will appear at higher difficulties and high scores.',
+            'Good luck and have fun!'
+        ]
+        self.help_window = pygame.Surface(self.help_window_size, pygame.SRCALPHA)
+        self.help_window.fill(self.help_bg_color)
+
     def zoom_bg_image(self,screen_rect):
         self.bg_image = pygame.transform.smoothscale(self.bg_image,(screen_rect.width,screen_rect.height))
         self.bg_y2 = -screen_rect.height

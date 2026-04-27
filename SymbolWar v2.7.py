@@ -32,7 +32,10 @@ class SymbolWar:
         self.boss = pygame.sprite.Group()
         self.boss_bullets = pygame.sprite.Group()
         self.gui = Gui(self)
-        self.button = Button(self,'Play')
+        self.play_button = Button(self,'Play')
+        self.help_button = Button(self,'Help')
+        self.help_button.rect.centery += 100
+        self.help_button.button_text_draw('Help')
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
 
@@ -50,7 +53,8 @@ class SymbolWar:
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
+                self._check_button(mouse_pos)
+
         # 检测键盘按键事件类型
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -78,12 +82,15 @@ class SymbolWar:
         elif event.key == pygame.K_DOWN:
             self.plane.moving_down = False
         # 检测开始按钮并进行初始化
-    def _check_play_button(self,mouse_pos):
-        if self.button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+    def _check_button(self,mouse_pos):
+        if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
             self.gui.image_GUI_create()
-
+        if self.help_button.rect.collidepoint(mouse_pos) and not self.stats.game_active and not self.stats.help_show:
+            self.stats.help_show = True
+        if not self.help_button.rect.collidepoint(mouse_pos) and not self.stats.game_active and self.stats.help_show:
+            self.stats.help_show = False
 
         # 开火
     def shoot_bullet(self):
@@ -266,6 +273,7 @@ class SymbolWar:
         self.gui.draw()
         self.bullets.draw(self.screen)
         self.enemies.draw(self.screen)
+        self.draw_help()
         if self.stats.boss_exist:
             boss = self.boss.sprites()[0]
             self.boss.draw(self.screen)
@@ -273,9 +281,11 @@ class SymbolWar:
             self.boss_bullets.update()
             self.boss_bullets.draw(self.screen)
         if not self.stats.game_active:
-            self.button.button_draw()
+            self.help_button.button_draw()
+            self.play_button.button_draw()
+            
         pygame.display.flip()
-
+        # 背景滚动
     def _bg_scroll(self):
         scroll_speed = self.settings.bg_scroll_speed
         self.settings.bg_y1 += scroll_speed
@@ -284,6 +294,18 @@ class SymbolWar:
            self.settings.bg_y1 = -self.screen_rect.height
         if self.settings.bg_y2 > self.screen_rect.height:
            self.settings.bg_y2 = -self.screen_rect.height
+
+    def draw_help(self):
+        if self.stats.help_show:
+            self.screen.blit(self.settings.help_window, (0, 0))
+            text_y = 30
+            for line in self.settings.help_text_lines:
+                help_text_image = self.settings.help_font.render(line, True, self.settings.help_text_color)
+                help_text_rect = help_text_image.get_rect()
+                help_text_rect.x = 30
+                help_text_rect.y = text_y
+                self.screen.blit(help_text_image, help_text_rect)
+                text_y += 30
 
         # 游戏主循环
     def run_game(self):

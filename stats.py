@@ -30,6 +30,7 @@ class GameStats:
         self.max_enemies =  self.settings.max_enemies
         self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
         self.boss_exist = False
+        self.help_show = False
 
         # 清空子弹和敌机
         self.enemies.empty()
