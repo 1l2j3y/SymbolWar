@@ -130,7 +130,7 @@ class Settings:
                            
         self.plane_image_str = '/(^)\\'
         self.plane_blink_image_str = '(x_x)'
-        self.bullet_image_str = '!!!!!!!!!!!'
+        self.bullet_image_str = '!'
         self.boss_bullet_image_str = 'o'
         self.boss_gamma_big_bullet_image_str = 'OOO'
 
