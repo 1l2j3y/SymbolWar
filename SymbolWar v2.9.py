@@ -83,7 +83,7 @@ class SymbolWar:
             self.plane2.moving_up = True
         elif event.key == pygame.K_s:
             self.plane2.moving_down = True
-        elif event.key == pygame.K_LCTRL:
+        elif event.key == pygame.K_f:
             self.plane2.shoot_bullet(self.bullets)
         elif event.key == pygame.K_ESCAPE:
             with open("highest.json","w",encoding="utf-8") as f:
@@ -241,8 +241,10 @@ class SymbolWar:
                 collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets)
                 if (collisions_enemy or collisions_boss or collisions_boss_bullet) and not plane.invincible:
                     self.settings.plane_hit_sound.play()
-                    self.enemies.remove(collisions_enemy)
-                    self.boss_bullets.remove(collisions_boss_bullet)
+                    if collisions_enemy is not None:
+                        self.enemies.remove(collisions_enemy)
+                    if collisions_boss_bullet is not None:
+                        self.boss_bullets.remove(collisions_boss_bullet)
                     plane.health -= 1
                     if plane.health <= 0:
                         plane.kill()
@@ -255,8 +257,10 @@ class SymbolWar:
             collisions_boss_bullet = pygame.sprite.spritecollideany(self.plane1, self.boss_bullets)
             if (collisions_enemy or collisions_boss or collisions_boss_bullet) and not self.plane1.invincible:
                 self.settings.plane_hit_sound.play()
-                self.enemies.remove(collisions_enemy)
-                self.boss_bullets.remove(collisions_boss_bullet)
+                if collisions_enemy is not None:
+                    self.enemies.remove(collisions_enemy)
+                if collisions_boss_bullet is not None:
+                    self.boss_bullets.remove(collisions_boss_bullet)
                 self.plane1.health -= 1
                 # 飞机进入无敌状态
                 self.plane1.invincible = True

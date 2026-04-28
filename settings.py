@@ -45,7 +45,7 @@ class Settings:
         
         # Bullet settings
         self.bullet_speed = 15
-        self.max_bullets = 50
+        self.max_bullets = 10
         self.bullet_color = (0,0,0)
         self.boss_bullet_y_speed = {'alpha':10,'beta':5,'gamma':10}
         self.boss_bullet_x_speed = {'alpha':0,'beta':10,'gamma':10}
