@@ -142,8 +142,10 @@ class SymbolWar:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
             self.gui.plane1_health_GUI_create(self.plane1)
-            self.gui.plane2_health_GUI_create(self.plane2,500)
+            self.gui.plane2_health_GUI_create(self.plane2,50)
             self.stats.vs = True
+            self.plane2.rect.midtop = self.screen_rect.midtop
+            self.plane2.image = self.settings.reverse_plane_image
 
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
@@ -357,7 +359,7 @@ class SymbolWar:
 
         # 飞机闪烁绘制
     def plane_blink_draw(self):
-        if self.stats.coop:
+        if self.stats.coop or self.stats.vs:
             for plane in self.planes:
                 self._check_plane_invincibility(plane)
                 if self._plane_blink(plane):
@@ -385,9 +387,6 @@ class SymbolWar:
     def update_screen(self):
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y1))
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y2))
-        if self.stats.vs:
-            self.plane2.rect.midtop = self.screen_rect.midtop
-            self.plane2.image = self.settings.reverse_plane_image
         self.plane_blink_draw()
         if self.stats.coop or self.stats.vs:
             self.gui.plane1_health_GUI_create(self.plane1)

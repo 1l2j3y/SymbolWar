@@ -41,7 +41,7 @@ class GameStats:
         self.enemies.empty()
         self.bullets1.empty()
         self.bullets2.empty()
-        # 令飞机重新居中
+        # 重置飞机位置和状态
         if self.plane1 not in self.planes and self.plane2 not in self.planes:
             self.planes.add(self.plane1)
             self.planes.add(self.plane2)
@@ -49,6 +49,7 @@ class GameStats:
         self.plane2.rect.midbottom = self.screen_rect.midbottom
         self.plane1.invincible = False
         self.plane2.invincible = False
+        self.plane2.image = self.settings.plane_image
         # 令游戏更新为活动状态
         self.game_active = True
         # 重置游戏开始时间
