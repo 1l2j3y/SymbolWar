@@ -5,7 +5,6 @@ import pygame
 
 from settings import Settings
 from plane import Plane
-from bullet import Bullet
 from enemy import Enemy,Boss
 from stats import GameStats
 from button import Button
@@ -16,6 +15,7 @@ class SymbolWar:
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
+        pygame.mixer.set_num_channels(32)
             # 创建游戏屏幕对象
         self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN)
             # 创建设置对象
