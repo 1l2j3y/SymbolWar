@@ -9,7 +9,8 @@ class GameStats:
         self.settings = SW_game.settings
         self.screen = SW_game.screen
         self.screen_rect = self.screen.get_rect()
-        self.plane = SW_game.plane
+        self.plane1 = SW_game.plane1
+        self.plane2 = SW_game.plane2
         self.enemies = SW_game.enemies
         self.bullets = SW_game.bullets
         try:
@@ -25,7 +26,8 @@ class GameStats:
     def reset_stats(self):
         self.score = 0
         self.difficulty = 0
-        self.plane.health = self.settings.plane_health
+        self.plane1.health = self.settings.plane_health
+        self.plane2.health = self.settings.plane_health
         self.enemy_spawn_delay = self.settings.enemy_spawn_delay
         self.max_enemies =  self.settings.max_enemies
         self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
@@ -36,7 +38,7 @@ class GameStats:
         self.enemies.empty()
         self.bullets.empty()
         # 令飞机重新居中            
-        self.plane.rect.midbottom = self.screen_rect.midbottom
+        self.plane1.rect.midbottom = self.screen_rect.midbottom
         # 令游戏更新为活动状态
         self.game_active = True
         # 重置游戏开始时间

@@ -44,9 +44,9 @@ class Gui:
     def image_GUI_create(self):
             # 剩余血量
         self.small_planes = Group()
-        for plane_num in range(self.stats.plane.health):
+        for plane1_num in range(self.stats.plane1.health):
             small_plane = SmallPlane(self.SW_game)
-            small_plane.rect.left = plane_num*small_plane.rect.width
+            small_plane.rect.left = plane1_num*small_plane.rect.width
             small_plane.rect.top = 0
             self.small_planes.add(small_plane)
             

@@ -2,7 +2,7 @@ from pygame.sprite import Sprite
 
 class Plane(Sprite):
 
-    def __init__(self,SW_game):
+    def __init__(self,SW_game, player_id=1):
         super().__init__()
             # 获取游戏屏幕对象和设置对象
         self.screen = SW_game.screen
@@ -28,6 +28,9 @@ class Plane(Sprite):
             # 飞机无敌状态
         self.invincible = False
         self.invincibility_duration = self.settings.plane_invincibility_duration
+            # 飞机id(用于区分玩家1和玩家2)
+        self.player_id = player_id
+        
         # 更新飞机位置
     def update(self):
         if self.moving_right and self.rect.right < self.screen_rect.right:
