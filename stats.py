@@ -21,6 +21,7 @@ class GameStats:
             self.highest_score = 0
         self.reset_stats()
         self.game_active = False
+        self.paused = False
         
         # 重置统计数据
     def reset_stats(self):

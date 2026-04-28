@@ -83,12 +83,15 @@ class SymbolWar:
             self.plane2.moving_up = True
         elif event.key == pygame.K_s:
             self.plane2.moving_down = True
-        elif event.key == pygame.K_e:
+        elif event.key == pygame.K_LCTRL:
             self.plane2.shoot_bullet(self.bullets)
         elif event.key == pygame.K_ESCAPE:
             with open("highest.json","w",encoding="utf-8") as f:
                 json.dump(self.stats.highest_score,f,indent=2)
             sys.exit()
+        elif event.key == pygame.K_F7:
+            if self.stats.game_active:
+                self.stats.paused = not self.stats.paused
         if not self.stats.game_active:
             if event.key in (pygame.K_0,pygame.K_1,pygame.K_2,pygame.K_3,pygame.K_4,pygame.K_5,pygame.K_6,pygame.K_7,pygame.K_8,pygame.K_9):
                 self.password += event.unicode
@@ -363,12 +366,16 @@ class SymbolWar:
 
             while True:
                 self.check_events()
-                self.planes.update()
-                self._check_bullet_enemy_collisions()
-                self.create_enemy()
-                self._update_enemies()
-                self._bg_scroll()
-                self._check_game_over()
+                if not self.stats.paused:
+                    pygame.mixer.music.unpause()
+                    self.planes.update()
+                    self._check_bullet_enemy_collisions()
+                    self.create_enemy()
+                    self._update_enemies()
+                    self._bg_scroll()
+                    self._check_game_over()
+                else:
+                    pygame.mixer.music.pause()
                 if not self.stats.game_active:
                     break
                 self.update_screen()
