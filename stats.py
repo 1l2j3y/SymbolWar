@@ -20,7 +20,6 @@ class GameStats:
             self.highest_score = 0
         self.reset_stats()
         self.game_active = False
-        self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
         
         # 重置统计数据
     def reset_stats(self):
@@ -33,6 +32,7 @@ class GameStats:
         self.boss_spawned = {'alpha':False,'beta':False,'gamma':False}
         self.boss_exist = False
         self.help_show = False
+        self.coop = False
 
         # 清空子弹和敌机
         self.enemies.empty()

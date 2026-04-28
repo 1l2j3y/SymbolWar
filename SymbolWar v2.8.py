@@ -130,6 +130,7 @@ class SymbolWar:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
             self.gui.image_GUI_create()
+            self.stats.coop = True
 
         # 开火
     def shoot_bullet(self, plane):
@@ -236,42 +237,81 @@ class SymbolWar:
 
         # 检查飞机受击的碰撞
     def _check_plane_hit_collisions(self):
-        for plane in self.planes:
-            collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies)
-            collisions_boss = pygame.sprite.spritecollideany(plane, self.boss)
-            collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets)
-            if collisions_enemy or collisions_boss or collisions_boss_bullet and not plane.invincible:
+        if self.stats.coop:
+            for plane in self.planes:
+                collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies)
+                collisions_boss = pygame.sprite.spritecollideany(plane, self.boss)
+                collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets)
+                if collisions_enemy or collisions_boss or collisions_boss_bullet and not plane.invincible:
+                    self.settings.plane_hit_sound.play()
+                    self.enemies.remove(collisions_enemy)
+                    plane.health -= 1
+                self.gui.image_GUI_create()
+                    # 飞机进入无敌状态
+                plane.invincible = True
+                plane.invincibility_start_time = pygame.time.get_ticks()
+        else:
+            collisions_enemy = pygame.sprite.spritecollideany(self.plane1, self.enemies)
+            collisions_boss = pygame.sprite.spritecollideany(self.plane1, self.boss)
+            collisions_boss_bullet = pygame.sprite.spritecollideany(self.plane1, self.boss_bullets)
+            if collisions_enemy or collisions_boss or collisions_boss_bullet and not self.plane1.invincible:
                 self.settings.plane_hit_sound.play()
                 self.enemies.remove(collisions_enemy)
-                plane.health -= 1
+                self.plane1.health -= 1
             self.gui.image_GUI_create()
                 # 飞机进入无敌状态
-            plane.invincible = True
-            plane.invincibility_start_time = pygame.time.get_ticks()
+            self.plane1.invincible = True
+            self.plane1.invincibility_start_time = pygame.time.get_ticks()
+        
             # 检查游戏结束
-        if self.plane1.health <= 0 and self.plane2.health <= 0:
+        if self.stats.coop:
+            gameover = self.plane1.health <= 0 and self.plane2.health <= 0
+        else:
+            gameover = self.plane1.health <= 0
+        if gameover:
             self.settings.game_over_sound.play()
             self.stats.game_active = False
 
         # 飞机闪烁绘制
     def plane_blink_draw(self):
         self._check_plane_invincibility()
-        if self._plane_blink():
-            self.plane1.plane_draw()
+        if self.stats.coop:
+            for plane in self.planes:
+                if self._plane_blink():
+                    plane.plane_draw()
+        else:
+            if self._plane_blink():
+                self.plane1.plane_draw()
         # 检查飞机无敌状态
     def _check_plane_invincibility(self):
-        if self.plane1.invincible:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.plane1.invincibility_start_time >= self.plane1.invincibility_duration:
-                self.plane1.invincible = False
+        if self.stats.coop:
+            for plane in self.planes:
+                if plane.invincible:
+                    current_time = pygame.time.get_ticks()
+                    if current_time - plane.invincibility_start_time >= plane.invincibility_duration:
+                        plane.invincible = False
+        else:
+            if self.plane1.invincible:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.plane1.invincibility_start_time >= self.plane1.invincibility_duration:
+                    self.plane1.invincible = False
         # 飞机闪烁效果
     def _plane_blink(self):
-        if self.plane1.invincible:
-            now_time = pygame.time.get_ticks()
-            if (now_time - self.plane1.invincibility_start_time) // self.settings.plane_blink_time % 2 == 0:
+        if self.stats.coop:
+            for plane in self.planes:
+                if plane.invincible:
+                    now_time = pygame.time.get_ticks()
+                    if (now_time - plane.invincibility_start_time) // self.settings.plane_blink_time % 2 == 0:
+                        return True
+                    return False
                 return True
-            return False
-        return True    
+        else:
+            if self.plane1.invincible:
+                now_time = pygame.time.get_ticks()
+                if (now_time - self.plane1.invincibility_start_time) // self.settings.plane_blink_time % 2 == 0:
+                    return True
+                return False
+            return True
 
         # 刷新屏幕
     def update_screen(self):
