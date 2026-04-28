@@ -11,6 +11,7 @@ class GameStats:
         self.screen_rect = self.screen.get_rect()
         self.plane1 = SW_game.plane1
         self.plane2 = SW_game.plane2
+        self.planes = SW_game.planes
         self.enemies = SW_game.enemies
         self.bullets = SW_game.bullets
         try:
@@ -37,7 +38,10 @@ class GameStats:
         # 清空子弹和敌机
         self.enemies.empty()
         self.bullets.empty()
-        # 令飞机重新居中            
+        # 令飞机重新居中
+        if self.plane1 not in self.planes and self.plane2 not in self.planes:
+            self.planes.add(self.plane1)
+            self.planes.add(self.plane2)
         self.plane1.rect.midbottom = self.screen_rect.midbottom
         self.plane2.rect.midbottom = self.screen_rect.midbottom
         # 令游戏更新为活动状态

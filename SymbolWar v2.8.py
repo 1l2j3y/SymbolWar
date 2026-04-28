@@ -239,6 +239,7 @@ class SymbolWar:
                 if (collisions_enemy or collisions_boss or collisions_boss_bullet) and not plane.invincible:
                     self.settings.plane_hit_sound.play()
                     self.enemies.remove(collisions_enemy)
+                    self.boss_bullets.remove(collisions_boss_bullet)
                     plane.health -= 1
                     if plane.health <= 0:
                         plane.kill()
@@ -252,6 +253,7 @@ class SymbolWar:
             if (collisions_enemy or collisions_boss or collisions_boss_bullet) and not self.plane1.invincible:
                 self.settings.plane_hit_sound.play()
                 self.enemies.remove(collisions_enemy)
+                self.boss_bullets.remove(collisions_boss_bullet)
                 self.plane1.health -= 1
                 # 飞机进入无敌状态
                 self.plane1.invincible = True

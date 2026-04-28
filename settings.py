@@ -126,7 +126,7 @@ class Settings:
         self.small_plane_font = pygame.font.SysFont(None,60)
         self.bullet_font = pygame.font.SysFont(None,60)
         self.boss_bullet_font = pygame.font.SysFont(None,100)
-        self.boss_gamma_big_bullet_font = pygame.font.SysFont(None,200)
+        self.boss_gamma_big_bullet_font = pygame.font.SysFont(None,300)
                            
         self.plane_image_str = '/(^)\\'
         self.plane_blink_image_str = '(x_x)'
