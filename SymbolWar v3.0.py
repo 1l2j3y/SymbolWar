@@ -146,6 +146,8 @@ class SymbolWar:
             self.stats.vs = True
             self.plane2.rect.midtop = self.screen_rect.midtop
             self.plane2.image = self.settings.reverse_plane_image
+            self.settings.bullet_speed += 10
+            self.settings.plane_speed -= 5
 
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
@@ -317,16 +319,12 @@ class SymbolWar:
             if collisions_plane_bullet1 and not self.plane1.invincible:
                 self.settings.plane_hit_sound.play()
                 self.plane1.health -= 1
-                if self.plane1.health <= 0:
-                    plane_to_remove.append(self.plane1)
                 # 飞机进入无敌状态
                 self.plane1.invincible = True
                 self.plane1.invincibility_start_time = pygame.time.get_ticks()
             if collisions_plane_bullet2 and not self.plane2.invincible:
                 self.settings.plane_hit_sound.play()
                 self.plane2.health -= 1
-                if self.plane2.health <= 0:
-                    plane_to_remove.append(self.plane2)
                 # 飞机进入无敌状态
                 self.plane2.invincible = True
                 self.plane2.invincibility_start_time = pygame.time.get_ticks()
