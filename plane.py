@@ -1,6 +1,3 @@
-from hmac import new
-from tkinter import SW
-
 from pygame.sprite import Sprite
 from bullet import Bullet
 
@@ -9,6 +6,7 @@ class Plane(Sprite):
     def __init__(self,SW_game, player_id=1):
         super().__init__()
             # 获取游戏屏幕对象和设置对象
+        self.SW_game = SW_game
         self.screen = SW_game.screen
         self.settings = SW_game.settings
         self.screen_rect = SW_game.screen.get_rect()
@@ -37,7 +35,8 @@ class Plane(Sprite):
     
     def shoot_bullet(self, bullets_group):
         if len(bullets_group) < self.settings.max_bullets:
-            new_bullet = Bullet(self)
+            self.settings.shoot_sound.play()
+            new_bullet = Bullet(self.SW_game)
             new_bullet.rect.midtop = self.rect.midtop
             bullets_group.add(new_bullet)
         
