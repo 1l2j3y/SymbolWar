@@ -74,7 +74,7 @@ class SymbolWar:
         elif event.key == pygame.K_DOWN:
             self.plane1.moving_down = True
         elif event.key == pygame.K_SPACE:
-            self.shoot_bullet(self.plane1)
+            self.plane1.shoot_bullet()
         elif event.key == pygame.K_a:
             self.plane2.moving_left = True
         elif event.key == pygame.K_d:
@@ -84,7 +84,7 @@ class SymbolWar:
         elif event.key == pygame.K_s:
             self.plane2.moving_down = True
         elif event.key == pygame.K_e:
-            self.shoot_bullet(self.plane2)
+            self.plane2.shoot_bullet()
         elif event.key == pygame.K_ESCAPE:
             with open("highest.json","w",encoding="utf-8") as f:
                 json.dump(self.stats.highest_score,f,indent=2)
@@ -132,13 +132,6 @@ class SymbolWar:
             self.gui.plane1_health_GUI_create(self.plane1)
             self.gui.plane2_health_GUI_create(self.plane2,50)
             self.stats.coop = True
-
-        # 开火
-    def shoot_bullet(self, plane):
-        if len(self.bullets) < self.settings.max_bullets:
-            new_bullet = Bullet(self, plane)
-            self.bullets.add(new_bullet)
-            self.settings.shoot_sound.play()
 
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
