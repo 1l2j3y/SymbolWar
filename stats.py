@@ -39,6 +39,7 @@ class GameStats:
         self.bullets.empty()
         # 令飞机重新居中            
         self.plane1.rect.midbottom = self.screen_rect.midbottom
+        self.plane2.rect.midbottom = self.screen_rect.midbottom
         # 令游戏更新为活动状态
         self.game_active = True
         # 重置游戏开始时间
