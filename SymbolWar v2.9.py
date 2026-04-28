@@ -235,6 +235,7 @@ class SymbolWar:
         # 检查飞机受击的碰撞
     def _check_plane_hit_collisions(self):
         if self.stats.coop:
+            plane_to_remove = []
             for plane in self.planes:
                 collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies)
                 collisions_boss = pygame.sprite.spritecollideany(plane, self.boss)
@@ -247,10 +248,12 @@ class SymbolWar:
                         self.boss_bullets.remove(collisions_boss_bullet)
                     plane.health -= 1
                     if plane.health <= 0:
-                        plane.kill()
+                        plane_to_remove.append(plane)
                     # 飞机进入无敌状态
                     plane.invincible = True
                     plane.invincibility_start_time = pygame.time.get_ticks()
+            for plane in plane_to_remove:
+                plane.kill()
         else:
             collisions_enemy = pygame.sprite.spritecollideany(self.plane1, self.enemies)
             collisions_boss = pygame.sprite.spritecollideany(self.plane1, self.boss)
