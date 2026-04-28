@@ -16,7 +16,8 @@ class Gui:
         self.font = self.settings.GUI_font
 
         self.score_GUI_create()
-        self.image_GUI_create()
+        self.plane1_health_GUI_create(self.SW_game.plane1)
+        self.plane2_health_GUI_create(self.SW_game.plane2,50)
         self.difficulty_GUI_create()
         # 创建字符串GUI的图像并设置他们的位置
     def score_GUI_create(self):
@@ -41,14 +42,22 @@ class Gui:
         self.difficulty_rect.top = 40
 
         # 创建图片GUI的图像并设置他们的位置
-    def image_GUI_create(self):
+    def plane1_health_GUI_create(self,plane,top=0):
             # 剩余血量
-        self.small_planes = Group()
-        for plane1_num in range(self.stats.plane1.health):
+        self.small_plane1s = Group()
+        for plane1_num in range(plane.health):
             small_plane = SmallPlane(self.SW_game)
             small_plane.rect.left = plane1_num*small_plane.rect.width
-            small_plane.rect.top = 0
-            self.small_planes.add(small_plane)
+            small_plane.rect.top = top
+            self.small_plane1s.add(small_plane)
+    def plane2_health_GUI_create(self,plane,top=0):
+            # 剩余血量
+        self.small_plane2s = Group()
+        for plane2_num in range(plane.health):
+            small_plane = SmallPlane(self.SW_game)
+            small_plane.rect.left = plane2_num*small_plane.rect.width
+            small_plane.rect.top = top
+            self.small_plane2s.add(small_plane)
             
         # boss血条创建(含boss名字)
     def boss_health_GUI_create(self,boss):
@@ -75,4 +84,4 @@ class Gui:
         self.screen.blit(self.score_image,self.score_rect)
         self.screen.blit(self.highest_score_image,self.highest_score_rect)
         self.screen.blit(self.difficulty_image,self.difficulty_rect)
-        self.small_planes.draw(self.screen)
+        self.small_plane1s.draw(self.screen)

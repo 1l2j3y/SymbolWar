@@ -27,7 +27,7 @@ class SymbolWar:
             # 创建飞机对象、子弹编组和敌机编组
         self.plane1 = Plane(self)
         self.plane2 = Plane(self, player_id=2)
-        self.planes = [self.plane1, self.plane2]
+        self.planes = pygame.sprite.Group(self.plane1, self.plane2)
         self.bullets = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.stats = GameStats(self)
@@ -38,9 +38,9 @@ class SymbolWar:
         self.help_button = Button(self,'Help')
         self.help_button.rect.centery += 100
         self.help_button.button_text_draw('Help')
-        self.coop_button = Button(self,'Coop')
+        self.coop_button = Button(self,'Co-op')
         self.coop_button.rect.centery += 200
-        self.coop_button.button_text_draw('Coop')
+        self.coop_button.button_text_draw('Co-op')
         self.password = ''
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
@@ -76,14 +76,14 @@ class SymbolWar:
         elif event.key == pygame.K_SPACE:
             self.shoot_bullet(self.plane1)
         elif event.key == pygame.K_a:
-            self.plane2.moving_right = True
-        elif event.key == pygame.K_d:
             self.plane2.moving_left = True
+        elif event.key == pygame.K_d:
+            self.plane2.moving_right = True
         elif event.key == pygame.K_w:
             self.plane2.moving_up = True
         elif event.key == pygame.K_s:
             self.plane2.moving_down = True
-        elif event.key == pygame.K_LSHIFT:
+        elif event.key == pygame.K_e:
             self.shoot_bullet(self.plane2)
         elif event.key == pygame.K_ESCAPE:
             with open("highest.json","w",encoding="utf-8") as f:
@@ -109,9 +109,9 @@ class SymbolWar:
         elif event.key == pygame.K_DOWN:
             self.plane1.moving_down = False
         elif event.key == pygame.K_a:
-            self.plane2.moving_right = False
-        elif event.key == pygame.K_d:
             self.plane2.moving_left = False
+        elif event.key == pygame.K_d:
+            self.plane2.moving_right = False
         elif event.key == pygame.K_w:
             self.plane2.moving_up = False
         elif event.key == pygame.K_s:
@@ -121,7 +121,7 @@ class SymbolWar:
         if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
-            self.gui.image_GUI_create()
+            self.gui.plane1_health_GUI_create(self.plane1)
         if self.help_button.rect.collidepoint(mouse_pos) and not self.stats.game_active and not self.stats.help_show:
             self.stats.help_show = True
         if not self.help_button.rect.collidepoint(mouse_pos) and not self.stats.game_active and self.stats.help_show:
@@ -129,7 +129,8 @@ class SymbolWar:
         if self.coop_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
-            self.gui.image_GUI_create()
+            self.gui.plane1_health_GUI_create(self.plane1)
+            self.gui.plane2_health_GUI_create(self.plane2,50)
             self.stats.coop = True
 
         # 开火
@@ -246,6 +247,8 @@ class SymbolWar:
                     self.settings.plane_hit_sound.play()
                     self.enemies.remove(collisions_enemy)
                     plane.health -= 1
+                    if plane.health <= 0:
+                        plane.kill()
                     # 飞机进入无敌状态
                     plane.invincible = True
                     plane.invincibility_start_time = pygame.time.get_ticks()
@@ -302,7 +305,12 @@ class SymbolWar:
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y1))
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y2))
         self.plane_blink_draw()
-        self.gui.image_GUI_create()
+        if self.stats.coop:
+            self.gui.plane1_health_GUI_create(self.plane1)
+            self.gui.plane2_health_GUI_create(self.plane2,50)
+            self.gui.small_plane2s.draw(self.screen)
+        else:
+            self.gui.plane1_health_GUI_create(self.plane1)
         self.gui.draw()
         self.bullets.draw(self.screen)
         self.enemies.draw(self.screen)
@@ -360,7 +368,7 @@ class SymbolWar:
 
             while True:
                 self.check_events()
-                self.plane1.update()
+                self.planes.update()
                 self._check_bullet_enemy_collisions()
                 self.create_enemy()
                 self._update_enemies()
