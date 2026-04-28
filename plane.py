@@ -1,3 +1,5 @@
+from hmac import new
+
 from pygame.sprite import Sprite
 from bullet import Bullet
 
@@ -39,7 +41,11 @@ class Plane(Sprite):
         if len(bullets_group) < self.settings.max_bullets:
             self.settings.shoot_sound.play()
             new_bullet = Bullet(self.SW_game,direction=1 if self.player_id == 1 else -1)
-            new_bullet.rect.midtop = self.rect.midtop
+            if self.SW_game.stats.vs and self.player_id == 2:
+                new_bullet.image = self.settings.reverse_bullet_image
+                new_bullet.rect.midbottom = self.rect.midbottom
+            else:
+                new_bullet.rect.midtop = self.rect.midtop
             new_bullet.y = float(new_bullet.rect.y)
             bullets_group.add(new_bullet)
         
@@ -60,7 +66,10 @@ class Plane(Sprite):
         if self.invincible:
             self.image = self.settings.plane_blink_image
         else:
-            self.image = self.settings.plane_image
+            if self.SW_game.stats.vs and self.player_id == 2:
+                self.image = self.settings.reverse_plane_image
+            else:
+                self.image = self.settings.plane_image
         self.screen.blit(self.image,self.rect)
 
 class SmallPlane(Sprite):

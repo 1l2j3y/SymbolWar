@@ -132,6 +132,7 @@ class Settings:
         self.reverse_plane_image_str = '\\(v)/'
         self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
+        self.reverse_bullet_image_str = '¡'
         self.boss_bullet_image_str = 'o'
         self.boss_gamma_big_bullet_image_str = 'OOO'
 
@@ -141,6 +142,7 @@ class Settings:
         self.reverse_plane_image = self.plane_font.render(self.reverse_plane_image_str,True,self.plane_color)
         self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_blink_color)
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
+        self.reverse_bullet_image = self.bullet_font.render(self.reverse_bullet_image_str,True,self.bullet_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)
         self.boss_bullet_image = self.boss_bullet_font.render(self.boss_bullet_image_str,True,self.boss_bullet_color)
         self.boss_gamma_big_bullet_image = self.boss_gamma_big_bullet_font.render(self.boss_gamma_big_bullet_image_str,
@@ -148,9 +150,6 @@ class Settings:
         
         self.help_text_title_image = self.help_title_font.render(self.help_text_title_str,True,self.help_text_color)
         self.help_text_title_rect = self.help_text_title_image.get_rect()
-
-        # Language settings
-        self.language = 'en'
 
     def zoom_bg_image(self,screen_rect):
         self.bg_image = pygame.transform.smoothscale(self.bg_image,(screen_rect.width,screen_rect.height))
