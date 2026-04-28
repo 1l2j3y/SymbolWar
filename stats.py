@@ -34,6 +34,7 @@ class GameStats:
         self.boss_exist = False
         self.help_show = False
         self.coop = False
+        self.vs = False
 
         # 清空子弹和敌机
         self.enemies.empty()

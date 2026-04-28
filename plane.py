@@ -38,7 +38,7 @@ class Plane(Sprite):
             return
         if len(bullets_group) < self.settings.max_bullets:
             self.settings.shoot_sound.play()
-            new_bullet = Bullet(self.SW_game)
+            new_bullet = Bullet(self.SW_game,direction=1 if self.player_id == 1 else -1)
             new_bullet.rect.midtop = self.rect.midtop
             new_bullet.y = float(new_bullet.rect.y)
             bullets_group.add(new_bullet)

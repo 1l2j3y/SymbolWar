@@ -129,6 +129,7 @@ class Settings:
         self.boss_gamma_big_bullet_font = pygame.font.SysFont(None,300)
                            
         self.plane_image_str = '/(^)\\'
+        self.reverse_plane_image_str = '\\(v)/'
         self.plane_blink_image_str = '(x_x)'
         self.bullet_image_str = '!'
         self.boss_bullet_image_str = 'o'
@@ -137,6 +138,7 @@ class Settings:
         self.help_text_title_str = 'Welcome to Symbol War !'
 
         self.plane_image = self.plane_font.render(self.plane_image_str,True,self.plane_color)
+        self.reverse_plane_image = self.plane_font.render(self.reverse_plane_image_str,True,self.plane_color)
         self.plane_blink_image = self.plane_blink_font.render(self.plane_blink_image_str,True,self.plane_blink_color)
         self.small_plane_image = self.small_plane_font.render(self.plane_image_str,True,self.small_plane_color)
         self.bullet_image =  self.bullet_font.render(self.bullet_image_str,True,self.bullet_color)

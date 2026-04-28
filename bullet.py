@@ -2,7 +2,7 @@ from pygame.sprite import Sprite
 
 class Bullet(Sprite):
 
-    def __init__(self,SW_game):
+    def __init__(self,SW_game,direction=1):
         super().__init__()
             #  获取游戏屏幕对象和设置对象
         self.screen = SW_game.screen
@@ -12,9 +12,10 @@ class Bullet(Sprite):
         self.image = self.settings.bullet_image
         self.rect = self.image.get_rect()
         self.y = float(self.rect.y)
+        self.direction = direction
         # 更新子弹位置
     def update(self):
-        self.y -= self.settings.bullet_speed
+        self.y -= self.settings.bullet_speed * self.direction
         self.rect.y = self.y
 
 class BossBullet(Sprite):

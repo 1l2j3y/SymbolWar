@@ -1,3 +1,5 @@
+from math import e
+import re
 import sys
 import json
 
@@ -41,6 +43,9 @@ class SymbolWar:
         self.coop_button = Button(self,'Co-op')
         self.coop_button.rect.centery += 200
         self.coop_button.button_text_draw('Co-op')
+        self.vs_button = Button(self,'VS')
+        self.vs_button.rect.centery += 300
+        self.vs_button.button_text_draw('VS')
         self.password = ''
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
@@ -132,12 +137,18 @@ class SymbolWar:
             self.gui.plane1_health_GUI_create(self.plane1)
             self.gui.plane2_health_GUI_create(self.plane2,50)
             self.stats.coop = True
+        if self.vs_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+            self.stats.reset_stats()
+            self.gui.score_GUI_create()
+            self.gui.plane1_health_GUI_create(self.plane1)
+            self.gui.plane2_health_GUI_create(self.plane2,500)
+            self.stats.vs = True
 
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
         self.bullets.update()
         for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.bottom <= 0 or bullet.rect.top >= self.screen_rect.height:
                 self.bullets.remove(bullet)
             # 检查子弹和敌机之间的碰撞
         enemy_collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, False)
@@ -173,6 +184,8 @@ class SymbolWar:
     def create_enemy(self):
         self._create_boss()
         if self.stats.boss_exist:
+            return
+        if self.stats.vs:
             return
         now_time = pygame.time.get_ticks()
         now_difficulty = (now_time - self.stats.game_start_time) // self.settings.difficulty_up_delay
@@ -251,6 +264,36 @@ class SymbolWar:
                     plane.invincibility_start_time = pygame.time.get_ticks()
             for plane in plane_to_remove:
                 plane.kill()
+        elif self.stats.vs:
+            collisions_plane = pygame.sprite.collide_rect(self.plane1, self.plane2)
+            if collisions_plane and not self.plane1.invincible and not self.plane2.invincible:
+                if self.plane1.health > 0 and self.plane2.health > 0:
+                    self.settings.plane_hit_sound.play()
+                    self.plane1.health -= 1
+                    self.plane2.health -= 1
+                    # 飞机进入无敌状态
+                    self.plane1.invincible = True
+                    self.plane1.invincibility_start_time = pygame.time.get_ticks()
+                    self.plane2.invincible = True
+                    self.plane2.invincibility_start_time = pygame.time.get_ticks()
+            collisions_plane_bullet1= pygame.sprite.spritecollideany(self.plane1, self.bullets)
+            collisions_plane_bullet2= pygame.sprite.spritecollideany(self.plane2, self.bullets)
+            if collisions_plane_bullet1 and not self.plane1.invincible:
+                self.settings.plane_hit_sound.play()
+                self.plane1.health -= 1
+                if self.plane1.health <= 0:
+                    plane_to_remove.append(self.plane1)
+                # 飞机进入无敌状态
+                self.plane1.invincible = True
+                self.plane1.invincibility_start_time = pygame.time.get_ticks()
+            if collisions_plane_bullet2 and not self.plane2.invincible:
+                self.settings.plane_hit_sound.play()
+                self.plane2.health -= 1
+                if self.plane2.health <= 0:
+                    plane_to_remove.append(self.plane2)
+                # 飞机进入无敌状态
+                self.plane2.invincible = True
+                self.plane2.invincibility_start_time = pygame.time.get_ticks()
         else:
             collisions_enemy = pygame.sprite.spritecollideany(self.plane1, self.enemies)
             collisions_boss = pygame.sprite.spritecollideany(self.plane1, self.boss)
@@ -270,6 +313,8 @@ class SymbolWar:
     def _check_game_over(self):
         if self.stats.coop:
             gameover = self.plane1.health <= 0 and self.plane2.health <= 0
+        elif self.stats.vs:
+            gameover = self.plane1.health <= 0 or self.plane2.health <= 0
         else:
             gameover = self.plane1.health <= 0
         if gameover:
@@ -306,8 +351,11 @@ class SymbolWar:
     def update_screen(self):
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y1))
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y2))
+        if self.stats.vs:
+            self.plane2.rect.midtop = self.screen_rect.midtop
+            self.plane2.image = self.settings.reverse_plane_image
         self.plane_blink_draw()
-        if self.stats.coop:
+        if self.stats.coop or self.stats.vs:
             self.gui.plane1_health_GUI_create(self.plane1)
             self.gui.plane2_health_GUI_create(self.plane2,50)
             self.gui.small_plane2s.draw(self.screen)
@@ -327,6 +375,7 @@ class SymbolWar:
             self.help_button.button_draw()
             self.play_button.button_draw()
             self.coop_button.button_draw()
+            self.vs_button.button_draw()
             
         pygame.display.flip()
         # 背景滚动
