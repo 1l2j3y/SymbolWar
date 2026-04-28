@@ -44,6 +44,8 @@ class GameStats:
             self.planes.add(self.plane2)
         self.plane1.rect.midbottom = self.screen_rect.midbottom
         self.plane2.rect.midbottom = self.screen_rect.midbottom
+        self.plane1.invincible = False
+        self.plane2.invincible = False
         # 令游戏更新为活动状态
         self.game_active = True
         # 重置游戏开始时间
