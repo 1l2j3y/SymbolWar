@@ -30,7 +30,8 @@ class SymbolWar:
         self.plane1 = Plane(self)
         self.plane2 = Plane(self, player_id=2)
         self.planes = pygame.sprite.Group(self.plane1, self.plane2)
-        self.bullets = pygame.sprite.Group()
+        self.bullets1 = pygame.sprite.Group()
+        self.bullets2 = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.stats = GameStats(self)
         self.boss = pygame.sprite.Group()
@@ -79,7 +80,7 @@ class SymbolWar:
         elif event.key == pygame.K_DOWN:
             self.plane1.moving_down = True
         elif event.key == pygame.K_SPACE:
-            self.plane1.shoot_bullet(self.bullets)
+            self.plane1.shoot_bullet(self.bullets1)
         elif event.key == pygame.K_a:
             self.plane2.moving_left = True
         elif event.key == pygame.K_d:
@@ -89,7 +90,7 @@ class SymbolWar:
         elif event.key == pygame.K_s:
             self.plane2.moving_down = True
         elif event.key == pygame.K_f:
-            self.plane2.shoot_bullet(self.bullets)
+            self.plane2.shoot_bullet(self.bullets2)
         elif event.key == pygame.K_ESCAPE:
             with open("highest.json","w",encoding="utf-8") as f:
                 json.dump(self.stats.highest_score,f,indent=2)
@@ -146,14 +147,20 @@ class SymbolWar:
 
         # 更新子弹位置并检测与敌机的碰撞
     def _check_bullet_enemy_collisions(self):
-        self.bullets.update()
-        for bullet in self.bullets.copy():
+        self.bullets1.update()
+        self.bullets2.update()
+        for bullet in self.bullets1.copy():
             if bullet.rect.bottom <= 0 or bullet.rect.top >= self.screen_rect.height:
-                self.bullets.remove(bullet)
+                self.bullets1.remove(bullet)
+        for bullet in self.bullets2.copy():
+            if bullet.rect.bottom <= 0 or bullet.rect.top >= self.screen_rect.height:
+                self.bullets2.remove(bullet)
             # 检查子弹和敌机之间的碰撞
-        enemy_collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, False)
-        boss_collisions = pygame.sprite.groupcollide(self.bullets, self.boss, True, False)
-        for hit_enemies in enemy_collisions.values():
+        enemy_collisions1 = pygame.sprite.groupcollide(self.bullets1, self.enemies, True, False)
+        boss_collisions1 = pygame.sprite.groupcollide(self.bullets1, self.boss, True, False)
+        enemy_collisions2 = pygame.sprite.groupcollide(self.bullets2, self.enemies, True, False)
+        boss_collisions2 = pygame.sprite.groupcollide(self.bullets2, self.boss, True, False)
+        for hit_enemies in enemy_collisions1.values():
             for injured_enemy in hit_enemies:
                 injured_enemy.health -= 1
                 injured_enemy.update_image()
@@ -164,7 +171,33 @@ class SymbolWar:
                 if self.stats.score > self.stats.highest_score:
                     self.stats.highest_score = self.stats.score
                 self.gui.score_GUI_create()    
-        for hit_boss in boss_collisions.values():
+        for hit_boss in boss_collisions1.values():
+            for injured_boss in hit_boss:
+                injured_boss.health -= 1
+                if injured_boss.health <= 0:
+                    self.settings.boss_killed_sound.play()
+                    injured_boss.kill()
+                    self.boss_bullets.empty()
+                    self.stats.score += self.settings.boss_points
+                    self.stats.boss_exist = False
+                    pygame.mixer.music.load(self.settings.bgm_path)
+                    pygame.mixer.music.play(-1)
+                    
+                    if self.stats.score > self.stats.highest_score:
+                        self.stats.highest_score = self.stats.score
+                    self.gui.score_GUI_create()
+        for hit_enemies in enemy_collisions2.values():
+            for injured_enemy in hit_enemies:
+                injured_enemy.health -= 1
+                injured_enemy.update_image()
+                if injured_enemy.health <= 0:
+                    injured_enemy.kill()
+                    self.settings.enemy_killed_sound.play()
+                    self.stats.score += self.settings.enemy_points[injured_enemy.type]
+                if self.stats.score > self.stats.highest_score:
+                    self.stats.highest_score = self.stats.score
+                self.gui.score_GUI_create()    
+        for hit_boss in boss_collisions2.values():
             for injured_boss in hit_boss:
                 injured_boss.health -= 1
                 if injured_boss.health <= 0:
@@ -226,7 +259,8 @@ class SymbolWar:
             self.boss.add(new_boss)
             self.stats.boss_exist = True
             self.enemies.empty()
-            self.bullets.empty()
+            self.bullets1.empty()
+            self.bullets2.empty()
             self.boss_bullets.empty()
             pygame.mixer.music.load(self.settings.boss_bgm_path)
             pygame.mixer.music.play(-1)
@@ -276,8 +310,8 @@ class SymbolWar:
                     self.plane1.invincibility_start_time = pygame.time.get_ticks()
                     self.plane2.invincible = True
                     self.plane2.invincibility_start_time = pygame.time.get_ticks()
-            collisions_plane_bullet1= pygame.sprite.spritecollideany(self.plane1, self.bullets)
-            collisions_plane_bullet2= pygame.sprite.spritecollideany(self.plane2, self.bullets)
+            collisions_plane_bullet1= pygame.sprite.spritecollideany(self.plane1, self.bullets2)
+            collisions_plane_bullet2= pygame.sprite.spritecollideany(self.plane2, self.bullets1)
             if collisions_plane_bullet1 and not self.plane1.invincible:
                 self.settings.plane_hit_sound.play()
                 self.plane1.health -= 1
@@ -362,7 +396,8 @@ class SymbolWar:
         else:
             self.gui.plane1_health_GUI_create(self.plane1)
         self.gui.draw()
-        self.bullets.draw(self.screen)
+        self.bullets1.draw(self.screen)
+        self.bullets2.draw(self.screen)
         self.enemies.draw(self.screen)
         self.draw_help()
         if self.stats.boss_exist:

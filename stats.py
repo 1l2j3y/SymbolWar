@@ -13,7 +13,8 @@ class GameStats:
         self.plane2 = SW_game.plane2
         self.planes = SW_game.planes
         self.enemies = SW_game.enemies
-        self.bullets = SW_game.bullets
+        self.bullets1 = SW_game.bullets1
+        self.bullets2 = SW_game.bullets2
         try:
             with open("highest.json","r",encoding="utf-8") as f:
                 self.highest_score = json.load(f)
@@ -38,7 +39,8 @@ class GameStats:
 
         # 清空子弹和敌机
         self.enemies.empty()
-        self.bullets.empty()
+        self.bullets1.empty()
+        self.bullets2.empty()
         # 令飞机重新居中
         if self.plane1 not in self.planes and self.plane2 not in self.planes:
             self.planes.add(self.plane1)
