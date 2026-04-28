@@ -34,10 +34,13 @@ class Plane(Sprite):
         self.player_id = player_id
     
     def shoot_bullet(self, bullets_group):
+        if self.health <= 0:
+            return
         if len(bullets_group) < self.settings.max_bullets:
             self.settings.shoot_sound.play()
             new_bullet = Bullet(self.SW_game)
             new_bullet.rect.midtop = self.rect.midtop
+            new_bullet.y = float(new_bullet.rect.y)
             bullets_group.add(new_bullet)
         
         # 更新飞机位置

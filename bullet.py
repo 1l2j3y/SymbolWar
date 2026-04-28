@@ -11,7 +11,6 @@ class Bullet(Sprite):
             # 创建一个表示子弹的矩形,并设置其初始位置
         self.image = self.settings.bullet_image
         self.rect = self.image.get_rect()
-        self.rect.midtop = (100,500)
         self.y = float(self.rect.y)
         # 更新子弹位置
     def update(self):
