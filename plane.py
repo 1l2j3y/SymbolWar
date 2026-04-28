@@ -1,3 +1,4 @@
+from hmac import new
 from tkinter import SW
 
 from pygame.sprite import Sprite
@@ -11,7 +12,6 @@ class Plane(Sprite):
         self.screen = SW_game.screen
         self.settings = SW_game.settings
         self.screen_rect = SW_game.screen.get_rect()
-        self.bullets = SW_game.bullets
             # 加载飞机图像并获取其外接矩形
         self.image = self.settings.plane_image
         self.rect = self.image.get_rect()
@@ -35,11 +35,10 @@ class Plane(Sprite):
             # 飞机id(用于区分玩家1和玩家2)
         self.player_id = player_id
     
-    def shoot_bullet(self, bullets_group=None):
-        if bullets_group is None:
-            bullets_group = self.bullets
+    def shoot_bullet(self, bullets_group):
         if len(bullets_group) < self.settings.max_bullets:
             new_bullet = Bullet(self)
+            new_bullet.rect.midtop = self.rect.midtop
             bullets_group.add(new_bullet)
         
         # 更新飞机位置
