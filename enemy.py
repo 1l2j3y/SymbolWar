@@ -61,14 +61,12 @@ class Enemy(Sprite):
         self.rect.x = self.x
 
     def update_image(self):
-        for type,config in self.image_config.items():
-            enemy_font = config['font']
-            if type == 'tank':
-                text = f'<[{self.health}]>'
-                self.image = enemy_font.render(text,True,self.settings.enemy_color)
-                old_center = self.rect.center
-                self.rect = self.image.get_rect()
-                self.rect.center = old_center
+        if self.type == 'tank':
+            text = f'<[{self.health}]>'
+            self.image = self.enemy_font.render(text,True,self.settings.enemy_color)
+            old_center = self.rect.center
+            self.rect = self.image.get_rect()
+            self.rect.center = old_center
 
         # 增加敌人速度
     def speedup(self,difficulty=0):
