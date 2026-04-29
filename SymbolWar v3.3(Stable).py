@@ -1,8 +1,8 @@
 import sys
 import json
 import random
-
 import pygame
+from pathlib import Path
 
 from settings import Settings
 from plane import Plane
@@ -10,6 +10,13 @@ from enemy import Enemy,Boss
 from stats import GameStats
 from button import Button
 from gui import Gui
+
+
+def data_path(filename):
+    if getattr(sys, 'frozen', False):
+        return Path(sys.executable).parent / filename
+    else:
+        return Path(__file__).parent / filename
 
 class SymbolWar:
     
@@ -68,8 +75,8 @@ class SymbolWar:
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                with open("highest.json","w",encoding="utf-8") as f:
-                    json.dump(self.stats.highest_score,f,indent=2)
+                with open(data_path("highest.json"), "w", encoding="utf-8") as f:
+                    json.dump(self.stats.highest_score, f, indent=2)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event) 
@@ -90,8 +97,8 @@ class SymbolWar:
         elif event.key == pygame.K_f:
             self.plane2.shoot_bullet(self.bullets2)
         elif event.key == pygame.K_ESCAPE:
-            with open("highest.json","w",encoding="utf-8") as f:
-                json.dump(self.stats.highest_score,f,indent=2)
+            with open(data_path("highest.json"), "w", encoding="utf-8") as f:
+                json.dump(self.stats.highest_score, f, indent=2)
             sys.exit()
         if not self.stats.game_active:
             if event.key in (pygame.K_0,pygame.K_1,pygame.K_2,pygame.K_3,pygame.K_4,pygame.K_5,pygame.K_6,pygame.K_7,pygame.K_8,pygame.K_9):
