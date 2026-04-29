@@ -25,9 +25,8 @@ class Plane(Sprite):
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
-            # 飞机速度
+            # 飞机属性
         self.speed = self.settings.plane_speed
-            # 飞机生命值
         self.health = self.settings.plane_health
             # 飞机无敌状态
         self.invincible = False

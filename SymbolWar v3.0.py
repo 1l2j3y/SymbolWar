@@ -139,12 +139,6 @@ class SymbolWar:
     def _check_bullet_enemy_collisions(self):
         self.bullets1.update()
         self.bullets2.update()
-        for bullet in self.bullets1.copy():
-            if bullet.rect.bottom <= 0 or bullet.rect.top >= self.screen_rect.height:
-                self.bullets1.remove(bullet)
-        for bullet in self.bullets2.copy():
-            if bullet.rect.bottom <= 0 or bullet.rect.top >= self.screen_rect.height:
-                self.bullets2.remove(bullet)
             # 检查子弹和敌机之间的碰撞
         enemy_collisions1 = pygame.sprite.groupcollide(self.bullets1, self.enemies, True, False)
         boss_collisions1 = pygame.sprite.groupcollide(self.bullets1, self.boss, True, False)
@@ -249,32 +243,22 @@ class SymbolWar:
                 collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies)
                 collisions_boss = pygame.sprite.spritecollideany(plane, self.boss)
                 collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets)
-                if (collisions_enemy or collisions_boss or collisions_boss_bullet) and not plane.invincible:
-                    self.settings.plane_hit_sound.play()
-                    if collisions_enemy is not None:
-                        self.enemies.remove(collisions_enemy)
-                    if collisions_boss_bullet is not None:
-                        self.boss_bullets.remove(collisions_boss_bullet)
-                    plane.health -= 1
-                    if plane.health <= 0:
-                        plane_to_remove.append(plane)
-                    # 飞机进入无敌状态
-                    plane.invincible = True
-                    plane.invincibility_start_time = pygame.time.get_ticks()
+                self._check_single_plane_hit(plane, collisions_enemy)
+                self._check_single_plane_hit(plane, collisions_boss, False)
+                self._check_single_plane_hit(plane, collisions_boss_bullet)
             for plane in plane_to_remove:
                 plane.kill()
         elif self.stats.vs:
             collisions_plane = pygame.sprite.collide_rect(self.plane1, self.plane2)
             if collisions_plane and not self.plane1.invincible and not self.plane2.invincible:
-                if self.plane1.health > 0 and self.plane2.health > 0:
-                    self.settings.plane_hit_sound.play()
-                    self.plane1.health -= 1
-                    self.plane2.health -= 1
-                    # 飞机进入无敌状态
-                    self.plane1.invincible = True
-                    self.plane1.invincibility_start_time = pygame.time.get_ticks()
-                    self.plane2.invincible = True
-                    self.plane2.invincibility_start_time = pygame.time.get_ticks()
+                self.settings.plane_hit_sound.play()
+                self.plane1.health -= 1
+                self.plane2.health -= 1
+                # 飞机进入无敌状态
+                self.plane1.invincible = True
+                self.plane1.invincibility_start_time = pygame.time.get_ticks()
+                self.plane2.invincible = True
+                self.plane2.invincibility_start_time = pygame.time.get_ticks()
             collisions_plane_bullet1= pygame.sprite.spritecollideany(self.plane1, self.bullets2)
             collisions_plane_bullet2= pygame.sprite.spritecollideany(self.plane2, self.bullets1)
             if collisions_plane_bullet1 and not self.plane1.invincible:
@@ -293,16 +277,21 @@ class SymbolWar:
             collisions_enemy = pygame.sprite.spritecollideany(self.plane1, self.enemies)
             collisions_boss = pygame.sprite.spritecollideany(self.plane1, self.boss)
             collisions_boss_bullet = pygame.sprite.spritecollideany(self.plane1, self.boss_bullets)
-            if (collisions_enemy or collisions_boss or collisions_boss_bullet) and not self.plane1.invincible:
-                self.settings.plane_hit_sound.play()
-                if collisions_enemy is not None:
-                    self.enemies.remove(collisions_enemy)
-                if collisions_boss_bullet is not None:
-                    self.boss_bullets.remove(collisions_boss_bullet)
-                self.plane1.health -= 1
-                # 飞机进入无敌状态
-                self.plane1.invincible = True
-                self.plane1.invincibility_start_time = pygame.time.get_ticks()
+            self._check_single_plane_hit(self.plane1, collisions_enemy)
+            self._check_single_plane_hit(self.plane1, collisions_boss, False)
+            self._check_single_plane_hit(self.plane1, collisions_boss_bullet)
+
+    def _check_single_plane_hit(self, plane,collisions_sprite,do_kill=True):
+        if plane.invincible:
+            return
+        if collisions_sprite:
+            self.settings.plane_hit_sound.play()
+            if do_kill:
+                collisions_sprite.kill()
+            plane.health -= 1
+            # 飞机进入无敌状态
+            plane.invincible = True
+            plane.invincibility_start_time = pygame.time.get_ticks()
         
         # 检查游戏结束
     def _check_game_over(self):
@@ -348,11 +337,11 @@ class SymbolWar:
         self.screen.blit(self.settings.bg_image,(0,self.settings.bg_y2))
         self.plane_blink_draw()
         if self.stats.coop or self.stats.vs:
-            self.gui.plane1_health_GUI_create(self.plane1)
-            self.gui.plane2_health_GUI_create(self.plane2,50)
-            self.gui.small_plane2s.draw(self.screen)
+            self.gui.plane_health_GUI_create(self.plane1)
+            self.gui.plane_health_GUI_create(self.plane2,50)
+            self.gui.small_planes2.draw(self.screen)
         else:
-            self.gui.plane1_health_GUI_create(self.plane1)
+            self.gui.plane_health_GUI_create(self.plane1)
         self.gui.draw()
         self.bullets1.draw(self.screen)
         self.bullets2.draw(self.screen)

@@ -1,3 +1,5 @@
+from tkinter import SW
+
 from pygame.sprite import Sprite
 
 class Bullet(Sprite):
@@ -6,6 +8,7 @@ class Bullet(Sprite):
         super().__init__()
             #  获取游戏屏幕对象和设置对象
         self.screen = SW_game.screen
+        self.screen_rect = SW_game.screen_rect
         self.settings = SW_game.settings
         self.color = self.settings.bullet_color
             # 创建一个表示子弹的矩形,并设置其初始位置
@@ -16,6 +19,8 @@ class Bullet(Sprite):
         # 更新子弹位置
     def update(self):
         self.y -= self.settings.bullet_speed * self.direction
+        if self.rect.bottom < self.screen_rect.top and self.rect.top > self.screen_rect.bottom:
+            self.kill()
         self.rect.y = self.y
 
 class BossBullet(Sprite):
@@ -24,6 +29,7 @@ class BossBullet(Sprite):
         super().__init__()
             #  获取游戏屏幕对象和设置对象
         self.screen = SW_game.screen
+        self.screen_rect = SW_game.screen_rect
         self.settings = SW_game.settings
         self.color = self.settings.boss_bullet_color
             # 创建一个表示子弹的矩形,并设置其初始位置
@@ -34,11 +40,12 @@ class BossBullet(Sprite):
         self.x = float(self.rect.x)
         self.y_speed = self.settings.boss_bullet_y_speed[boss_type]
         self.x_speed = self.settings.boss_bullet_x_speed[boss_type]
+
         # 更新子弹位置
     def update(self):
         self.y += self.y_speed
         self.x += self.x_speed
-        if self.rect.top > self.screen.get_rect().bottom:
+        if self.rect.top > self.screen_rect.bottom:
             self.kill()
         else:
             self.rect.y = self.y

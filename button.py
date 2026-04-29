@@ -18,13 +18,15 @@ class Button:
         self.rect = pygame.Rect(0, 0, self.button_width,self.button_height)
         self.rect.center = self.screen_rect.center
         self.rect.centery += y_add
-            # 放置文本图片于按钮上
+
         self.button_text_draw(msg)
+
         # 将文本图片绘制在按钮上
     def button_text_draw(self,msg):
         self.msg_image = self.font.render(msg,True,self.text_color,self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
+        
         # 绘制按钮
     def button_draw(self):
         self.screen.fill(self.button_color,self.rect)

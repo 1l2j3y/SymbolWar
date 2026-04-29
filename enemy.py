@@ -137,18 +137,16 @@ class Boss(Sprite):
 
     # 更新boss和boss子弹位置
     def update(self):
-        self.y += self.y_speed
-        self.rect.y = self.y
         self.x += self.x_speed
         if self.x < 0 or self.x > self.screen_rect.width - self.rect.width:
             self.x_speed = -self.x_speed
         self.rect.x = self.x
-        # 更新boss子弹位置
+        # 更新boss射击
         now_time = pygame.time.get_ticks()
         if now_time - self.last_shoot_time >= self.shoot_delay:
             self.shoot()
             self.last_shoot_time = now_time
-
+    # boss射击
     def shoot(self):
         if self.type == 'alpha':
             new_bullet1 = BossBullet(self.SW_game,self.rect.centerx - 100,self.rect.bottom,self.type)
@@ -178,8 +176,6 @@ class Boss(Sprite):
                 new_bullet.image =  self.settings.boss_gamma_big_bullet_image
                 new_bullet.rect = new_bullet.image.get_rect()
                 new_bullet.rect.midbottom = (self.rect.centerx,self.rect.bottom)
-                new_bullet.y = float(new_bullet.rect.y)
-                new_bullet.x = float(new_bullet.rect.x)
                 new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*0.5
                 new_bullet.x_speed = 0
                 self.SW_game.boss_bullets.add(new_bullet)

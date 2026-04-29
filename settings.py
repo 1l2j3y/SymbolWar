@@ -92,16 +92,15 @@ class Settings:
         self.difficulty_up_delay= 30000
 
         # Help settings
-        self.help_text_en = [
-            'Use arrow keys or WASD to move the plane.',
-            'Press space or F to shoot.',
-            'Destroy enemies to earn points.',
-            'Difficulty increases every 30 seconds.',
-            'Bosses will appear at higher difficulties and high scores.',
-            'Good luck and have fun!',
-            'Press Esc to exit the game.',
-            'Click anywhere to close this help window.',
-            '本帮助界面没有汉化,请不要输入114514并回车']
+        self.help_text_en = ['Use arrow keys or WASD to move the plane.',
+                            'Press space or F to shoot.',
+                            'Destroy enemies to earn points.',
+                            'Difficulty increases every 30 seconds.',
+                            'Bosses will appear at higher difficulties and high scores.',
+                            'Good luck and have fun!',
+                            'Press Esc to exit the game.',
+                            'Click anywhere to close this help window.',
+                            '本帮助界面没有汉化,请不要输入114514并回车']
         self.help_text_ch = ["你终究还是为了汉化而输入了这串恶臭的数字",
                             "方向键或者WASD移动, 空格键或者F开火, ESC退出",
                             "合作模式玩家一用第一套按键,玩家二用第二套按键",
