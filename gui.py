@@ -16,8 +16,8 @@ class Gui:
         self.font = self.settings.GUI_font
 
         self.score_GUI_create()
-        self.plane1_health_GUI_create(self.SW_game.plane1)
-        self.plane2_health_GUI_create(self.SW_game.plane2,50)
+        self.plane_health_GUI_create(self.SW_game.plane1)
+        self.plane_health_GUI_create(self.SW_game.plane2,50)
         self.difficulty_GUI_create()
         # 创建字符串GUI的图像并设置他们的位置
     def score_GUI_create(self):
@@ -44,7 +44,7 @@ class Gui:
         # 创建图片GUI的图像并设置他们的位置
     def plane_health_GUI_create(self,plane,top=0):
             # 剩余血量
-        if plane.id == 1:
+        if plane.player_id == 1:
             self.small_planes1 = Group()
         else:
             self.small_planes2 = Group()
@@ -52,7 +52,7 @@ class Gui:
             small_plane = SmallPlane(self.SW_game)
             small_plane.rect.left = plane_num*small_plane.rect.width
             small_plane.rect.top = top
-            if plane.id == 1:
+            if plane.player_id == 1:
                 self.small_planes1.add(small_plane)
             else:
                 self.small_planes2.add(small_plane)
