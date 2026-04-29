@@ -11,7 +11,6 @@ from stats import GameStats
 from button import Button
 from gui import Gui
 
-
 def data_path(filename):
     if getattr(sys, 'frozen', False):
         return Path(sys.executable).parent / filename

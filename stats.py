@@ -1,6 +1,13 @@
 import json
-
+import sys
 import pygame
+from pathlib import Path
+
+def data_path(filename):
+    if getattr(sys, 'frozen', False):
+        return Path(sys.executable).parent / filename
+    else:
+        return Path(__file__).parent / filename
 
     # 用于储存会随游戏的进行而动态变化的数据
 class GameStats:
@@ -16,7 +23,7 @@ class GameStats:
         self.bullets1 = SW_game.bullets1
         self.bullets2 = SW_game.bullets2
         try:
-            with open("highest.json","r",encoding="utf-8") as f:
+            with open(data_path("highest.json"), "r", encoding="utf-8") as f:
                 self.highest_score = json.load(f)
         except FileNotFoundError:
             self.highest_score = 0
