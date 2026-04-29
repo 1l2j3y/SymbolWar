@@ -150,59 +150,31 @@ class SymbolWar:
         boss_collisions1 = pygame.sprite.groupcollide(self.bullets1, self.boss, True, False)
         enemy_collisions2 = pygame.sprite.groupcollide(self.bullets2, self.enemies, True, False)
         boss_collisions2 = pygame.sprite.groupcollide(self.bullets2, self.boss, True, False)
-        for hit_enemies in enemy_collisions1.values():
+        self._process_collisions(enemy_collisions1)
+        self._process_collisions(boss_collisions1, is_boss=True)
+        self._process_collisions(enemy_collisions2)
+        self._process_collisions(boss_collisions2, is_boss=True)
+    
+    def _process_collisions(self, collisions, is_boss=False):
+        for hit_enemies in collisions.values():
             for injured_enemy in hit_enemies:
                 injured_enemy.health -= 1
                 injured_enemy.update_image()
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
-                    self.settings.enemy_killed_sound.play()
-                    self.stats.score += self.settings.enemy_points[injured_enemy.type]
+                    if not is_boss:
+                        self.settings.enemy_killed_sound.play()
+                        self.stats.score += self.settings.enemy_points[injured_enemy.type]
+                    else:
+                        self.settings.boss_killed_sound.play()
+                        self.stats.score += self.settings.boss_points
+                        self.boss_bullets.empty()
+                        self.stats.boss_exist = False
+                        pygame.mixer.music.load(self.settings.bgm_path)
+                        pygame.mixer.music.play(-1)
                 if self.stats.score > self.stats.highest_score:
                     self.stats.highest_score = self.stats.score
-                self.gui.score_GUI_create()    
-        for hit_boss in boss_collisions1.values():
-            for injured_boss in hit_boss:
-                injured_boss.health -= 1
-                if injured_boss.health <= 0:
-                    self.settings.boss_killed_sound.play()
-                    injured_boss.kill()
-                    self.boss_bullets.empty()
-                    self.stats.score += self.settings.boss_points
-                    self.stats.boss_exist = False
-                    pygame.mixer.music.load(self.settings.bgm_path)
-                    pygame.mixer.music.play(-1)
-                    
-                    if self.stats.score > self.stats.highest_score:
-                        self.stats.highest_score = self.stats.score
-                    self.gui.score_GUI_create()
-        for hit_enemies in enemy_collisions2.values():
-            for injured_enemy in hit_enemies:
-                injured_enemy.health -= 1
-                injured_enemy.update_image()
-                if injured_enemy.health <= 0:
-                    injured_enemy.kill()
-                    self.settings.enemy_killed_sound.play()
-                    self.stats.score += self.settings.enemy_points[injured_enemy.type]
-                if self.stats.score > self.stats.highest_score:
-                    self.stats.highest_score = self.stats.score
-                self.gui.score_GUI_create()    
-        for hit_boss in boss_collisions2.values():
-            for injured_boss in hit_boss:
-                injured_boss.health -= 1
-                if injured_boss.health <= 0:
-                    self.settings.boss_killed_sound.play()
-                    injured_boss.kill()
-                    self.boss_bullets.empty()
-                    self.stats.score += self.settings.boss_points
-                    self.stats.boss_exist = False
-                    pygame.mixer.music.load(self.settings.bgm_path)
-                    pygame.mixer.music.play(-1)
-                    
-                    if self.stats.score > self.stats.highest_score:
-                        self.stats.highest_score = self.stats.score
-                    self.gui.score_GUI_create()
-
+                self.gui.score_GUI_create() 
         # 创建敌机
     def create_enemy(self):
         self._create_boss()
