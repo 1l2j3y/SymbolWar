@@ -113,7 +113,7 @@ class SymbolWar:
         if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
-            self.gui.plane1_health_GUI_create(self.plane1)
+            self.gui.plane_health_GUI_create(self.plane1)
         if self.help_button.rect.collidepoint(mouse_pos) and not self.stats.game_active and not self.stats.help_show:
             self.stats.help_show = True
         if not self.help_button.rect.collidepoint(mouse_pos) and not self.stats.game_active and self.stats.help_show:
@@ -121,8 +121,8 @@ class SymbolWar:
         if self.coop_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
-            self.gui.plane1_health_GUI_create(self.plane1)
-            self.gui.plane2_health_GUI_create(self.plane2,50)
+            self.gui.plane_health_GUI_create(self.plane1)
+            self.gui.plane_health_GUI_create(self.plane2,50)
             self.stats.coop = True
         if self.vs_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
@@ -240,12 +240,12 @@ class SymbolWar:
         if self.stats.coop:
             plane_to_remove = []
             for plane in self.planes:
-                collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies, plane_to_remove)
-                collisions_boss = pygame.sprite.spritecollideany(plane, self.boss, plane_to_remove)
-                collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets, plane_to_remove)
-                self._check_single_plane_hit(plane, collisions_enemy)
-                self._check_single_plane_hit(plane, collisions_boss, False)
-                self._check_single_plane_hit(plane, collisions_boss_bullet)
+                collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies)
+                collisions_boss = pygame.sprite.spritecollideany(plane, self.boss)
+                collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets)
+                self._check_single_plane_hit(plane, collisions_enemy,plane_kill=plane_to_remove)
+                self._check_single_plane_hit(plane, collisions_boss, False, plane_kill=plane_to_remove)
+                self._check_single_plane_hit(plane, collisions_boss_bullet, plane_kill=plane_to_remove)
             for plane in plane_to_remove:
                 plane.kill()
         elif self.stats.vs:
@@ -346,6 +346,8 @@ class SymbolWar:
         else:
             self.gui.plane_health_GUI_create(self.plane1)
         self.gui.draw()
+        self.bullets1.updata()
+        self.bullets2.updata()
         self.bullets1.draw(self.screen)
         self.bullets2.draw(self.screen)
         self.enemies.draw(self.screen)

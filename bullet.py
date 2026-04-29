@@ -17,7 +17,7 @@ class Bullet(Sprite):
         self.y = float(self.rect.y)
         self.direction = direction
         # 更新子弹位置
-    def update(self):
+    def updata(self):
         self.y -= self.settings.bullet_speed * self.direction
         if self.rect.bottom < self.screen_rect.top and self.rect.top > self.screen_rect.bottom:
             self.kill()
