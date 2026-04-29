@@ -1,5 +1,3 @@
-from math import e
-
 import pygame
 from pygame.sprite import Group
 

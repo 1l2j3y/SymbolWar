@@ -240,9 +240,9 @@ class SymbolWar:
         if self.stats.coop:
             plane_to_remove = []
             for plane in self.planes:
-                collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies)
-                collisions_boss = pygame.sprite.spritecollideany(plane, self.boss)
-                collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets)
+                collisions_enemy = pygame.sprite.spritecollideany(plane, self.enemies, plane_to_remove)
+                collisions_boss = pygame.sprite.spritecollideany(plane, self.boss, plane_to_remove)
+                collisions_boss_bullet = pygame.sprite.spritecollideany(plane, self.boss_bullets, plane_to_remove)
                 self._check_single_plane_hit(plane, collisions_enemy)
                 self._check_single_plane_hit(plane, collisions_boss, False)
                 self._check_single_plane_hit(plane, collisions_boss_bullet)
@@ -281,7 +281,7 @@ class SymbolWar:
             self._check_single_plane_hit(self.plane1, collisions_boss, False)
             self._check_single_plane_hit(self.plane1, collisions_boss_bullet)
 
-    def _check_single_plane_hit(self, plane,collisions_sprite,do_kill=True):
+    def _check_single_plane_hit(self, plane,collisions_sprite,do_kill=True,plane_kill=None):
         if plane.invincible:
             return
         if collisions_sprite:
@@ -289,6 +289,9 @@ class SymbolWar:
             if do_kill:
                 collisions_sprite.kill()
             plane.health -= 1
+            if plane.health <= 0:
+                if plane_kill is not None:
+                    plane_kill.append(plane)
             # 飞机进入无敌状态
             plane.invincible = True
             plane.invincibility_start_time = pygame.time.get_ticks()
