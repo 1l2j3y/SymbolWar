@@ -37,15 +37,25 @@ class SymbolWar:
         self.boss_bullets = pygame.sprite.Group()
         self.gui = Gui(self)
         self.play_button = Button(self,'Play')
-        self.help_button = Button(self,'Help')
-        self.help_button.rect.centery += 100
-        self.help_button.button_text_draw('Help')
-        self.coop_button = Button(self,'Co-op')
-        self.coop_button.rect.centery += 200
-        self.coop_button.button_text_draw('Co-op')
-        self.vs_button = Button(self,'VS')
-        self.vs_button.rect.centery += 300
-        self.vs_button.button_text_draw('VS')
+        self.help_button = Button(self,'Help',100)
+        self.coop_button = Button(self,'Co-op',200)
+        self.vs_button = Button(self,'VS',300)
+        self.keydown = {pygame.K_RIGHT:(self.plane1, 'moving_right', True),
+                        pygame.K_LEFT:(self.plane1, 'moving_left', True),
+                        pygame.K_UP:(self.plane1, 'moving_up', True),
+                        pygame.K_DOWN:(self.plane1, 'moving_down', True),
+                        pygame.K_a:(self.plane2, 'moving_left', True),
+                        pygame.K_d:(self.plane2, 'moving_right', True),
+                        pygame.K_w:(self.plane2, 'moving_up', True),
+                        pygame.K_s:(self.plane2, 'moving_down', True)}
+        self.keyup = {pygame.K_RIGHT:(self.plane1, 'moving_right', False),
+                      pygame.K_LEFT:(self.plane1, 'moving_left', False),
+                      pygame.K_UP:(self.plane1, 'moving_up', False),
+                      pygame.K_DOWN:(self.plane1, 'moving_down', False),
+                      pygame.K_a:(self.plane2, 'moving_left', False),
+                      pygame.K_d:(self.plane2, 'moving_right', False),
+                      pygame.K_w:(self.plane2, 'moving_up', False),
+                      pygame.K_s:(self.plane2, 'moving_down', False)}
         self.password = ''
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
@@ -71,24 +81,12 @@ class SymbolWar:
 
         # 检测键盘按键事件类型
     def _check_keydown_events(self, event):
-        if event.key == pygame.K_RIGHT:
-            self.plane1.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.plane1.moving_left = True
-        elif event.key == pygame.K_UP:
-            self.plane1.moving_up = True
-        elif event.key == pygame.K_DOWN:
-            self.plane1.moving_down = True
-        elif event.key == pygame.K_SPACE:
-            self.plane1.shoot_bullet(self.bullets1)
-        elif event.key == pygame.K_a:
-            self.plane2.moving_left = True
-        elif event.key == pygame.K_d:
-            self.plane2.moving_right = True
-        elif event.key == pygame.K_w:
-            self.plane2.moving_up = True
-        elif event.key == pygame.K_s:
-            self.plane2.moving_down = True
+        for keydown,kd_event in self.keydown.items():
+            if event.key == keydown:
+                plane, attr, value = kd_event
+                setattr(plane, attr, value)
+        if event.key == pygame.K_SPACE:
+            self.plane1.shoot_bullet(self.bullets1)  
         elif event.key == pygame.K_f:
             self.plane2.shoot_bullet(self.bullets2)
         elif event.key == pygame.K_ESCAPE:
@@ -106,22 +104,10 @@ class SymbolWar:
                 
         # 检测键盘松键事件类型
     def _check_keyup_events(self, event):
-        if event.key == pygame.K_RIGHT:
-            self.plane1.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.plane1.moving_left = False
-        elif event.key == pygame.K_UP:
-            self.plane1.moving_up = False
-        elif event.key == pygame.K_DOWN:
-            self.plane1.moving_down = False
-        elif event.key == pygame.K_a:
-            self.plane2.moving_left = False
-        elif event.key == pygame.K_d:
-            self.plane2.moving_right = False
-        elif event.key == pygame.K_w:
-            self.plane2.moving_up = False
-        elif event.key == pygame.K_s:
-            self.plane2.moving_down = False
+        for keyup,ku_event in self.keyup.items():
+            if event.key == keyup:
+                plane, attr, value = ku_event
+                setattr(plane, attr, value)
         # 检测开始按钮并进行初始化
     def _check_button(self,mouse_pos):
         if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
