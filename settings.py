@@ -1,37 +1,43 @@
+import sys
 from pathlib import Path
-import json
+
+
 
 import pygame
 
-base_path = Path(__file__).parent
-
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):  # 打包后该属性为True
+        base_path = Path(sys._MEIPASS)
+    else:
+        base_path = Path(__file__).parent
+    return base_path / relative_path
 class Settings:
 
     def __init__(self):
         # Background settings
-        self.bg_image = pygame.image.load(base_path / 'assets' / 'bg.png').convert()
+        self.bg_image = pygame.image.load(resource_path('assets/bg.png')).convert()
         self.bg_y1 = 0
         self.bg_y2 = None
         self.bg_scroll_speed = 0.3
         self.bg_color = (255,255,255)
 
         # Backgroundmusic settings
-        self.bgm_path = base_path / 'assets' / 'bgm.ogg'
-        self.boss_bgm_path = base_path / 'assets' / 'boss_bgm.ogg'
+        self.bgm_path = resource_path('assets/bgm.ogg')
+        self.boss_bgm_path = resource_path('assets/boss_bgm.ogg')
         self.bgm_volume = 0.2
 
         # Sound settings
-        self.shoot_sound = pygame.mixer.Sound(base_path / 'assets' / 'shoot.wav')
+        self.shoot_sound = pygame.mixer.Sound(resource_path('assets/shoot.wav'))
         self.shoot_sound.set_volume(0.1)
-        self.enemy_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'enemy_killed.wav')
+        self.enemy_killed_sound = pygame.mixer.Sound(resource_path('assets/enemy_killed.wav'))
         self.enemy_killed_sound.set_volume(0.3)
-        self.boss_killed_sound = pygame.mixer.Sound(base_path / 'assets' / 'boss_killed.wav')
+        self.boss_killed_sound = pygame.mixer.Sound(resource_path('assets/boss_killed.wav'))
         self.boss_killed_sound.set_volume(1)
-        self.plane_hit_sound = pygame.mixer.Sound(base_path / 'assets' / 'plane_hit.wav')
+        self.plane_hit_sound = pygame.mixer.Sound(resource_path('assets/plane_hit.wav'))
         self.plane_hit_sound.set_volume(0.5)
-        self.game_over_sound = pygame.mixer.Sound(base_path / 'assets' / 'game_over.wav')
+        self.game_over_sound = pygame.mixer.Sound(resource_path('assets/game_over.wav'))
         self.game_over_sound.set_volume(1)
-        self.translate_sound = pygame.mixer.Sound(base_path / 'assets' / 'translate.wav')
+        self.translate_sound = pygame.mixer.Sound(resource_path('assets/translate.wav'))
         self.translate_sound.set_volume(1)
 
         # Plane settings
