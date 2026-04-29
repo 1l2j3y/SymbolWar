@@ -166,9 +166,9 @@ class SymbolWar:
                         self.stats.boss_exist = False
                         pygame.mixer.music.load(self.settings.bgm_path)
                         pygame.mixer.music.play(-1)
-                if self.stats.score > self.stats.highest_score:
-                    self.stats.highest_score = self.stats.score
-                self.gui.score_GUI_create() 
+        if self.stats.score > self.stats.highest_score:
+            self.stats.highest_score = self.stats.score
+        self.gui.score_GUI_create()
         # 创建敌机
     def create_enemy(self):
         self._create_boss()
