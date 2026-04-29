@@ -346,8 +346,6 @@ class SymbolWar:
         else:
             self.gui.plane_health_GUI_create(self.plane1)
         self.gui.draw()
-        self.bullets1.updata()
-        self.bullets2.updata()
         self.bullets1.draw(self.screen)
         self.bullets2.draw(self.screen)
         self.enemies.draw(self.screen)
