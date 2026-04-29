@@ -1,7 +1,6 @@
-from math import e
-import re
 import sys
 import json
+import random
 
 import pygame
 
@@ -50,6 +49,7 @@ class SymbolWar:
         self.password = ''
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
+        self.boss_spawn_time = 24000
 
         self.clock = pygame.time.Clock()
 
@@ -257,6 +257,9 @@ class SymbolWar:
         if self.stats.score >= 5000 and now_time >= 180000 and not self.stats.boss_spawned['gamma']:
             boss_type = 'gamma'
             self.stats.boss_spawned['gamma'] = True
+        if now_time >= self.boss_spawn_time and all(self.stats.boss_spawned.values()):
+            boss_type = random.choice(['alpha','beta','gamma'])
+            self.boss_spawn_time += 60000
 
         if boss_type:
             new_boss = Boss(self,boss_type)

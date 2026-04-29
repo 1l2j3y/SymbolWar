@@ -45,9 +45,9 @@ class Settings:
         
         # Bullet settings
         self.bullet_speed = 15
-        self.max_bullets = 10
+        self.max_bullets = 5
         self.bullet_color = (0,0,0)
-        self.boss_bullet_y_speed = {'alpha':15,'beta':10,'gamma':10}
+        self.boss_bullet_y_speed = {'alpha':15,'beta':7,'gamma':7}
         self.boss_bullet_x_speed = {'alpha':0,'beta':15,'gamma':10}
         self.boss_bullet_image = None
         self.boss_bullet_color = (255,0,0)
@@ -93,8 +93,8 @@ class Settings:
 
         # Help settings
         self.help_text_en = [
-            'Use arrow keys to move the plane.',
-            'Press space to shoot.',
+            'Use arrow keys or WASD to move the plane.',
+            'Press space or F to shoot.',
             'Destroy enemies to earn points.',
             'Difficulty increases every 30 seconds.',
             'Bosses will appear at higher difficulties and high scores.',
@@ -103,9 +103,12 @@ class Settings:
             'Click anywhere to close this help window.',
             '本帮助界面没有汉化,请不要输入114514并回车']
         self.help_text_ch = ["你终究还是为了汉化而输入了这串恶臭的数字",
-                            "方向键移动, 空格键开火, ESC退出",
+                            "方向键或者WASD移动, 空格键或者F开火, ESC退出",
+                            "合作模式玩家一用第一套按键,玩家二用第二套按键",
+                            "单人模式使用第一套按键",
                             "半分钟加一次难度",
                             " boss会在分数和时间都达到的时候出现",
+                            "干掉三个boss后每隔一分钟都会出现随机boss",
                             "这就是全部内容了",
                             "建议不要外放,音效比较抽象"]
         

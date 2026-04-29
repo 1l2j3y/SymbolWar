@@ -157,10 +157,10 @@ class Boss(Sprite):
             self.SW_game.boss_bullets.add(new_bullet1,new_bullet2,new_bullet3)
         elif self.type == 'beta':
             shootx_points = random.choice([self.rect.centerx - 150,self.rect.centerx - 50,self.rect.centerx + 50,self.rect.centerx + 150])
-            bullet_x_speed_list = [-3,-1.5,0,1.5,3] 
+            bullet_x_speed_list = [-1,-0.5,0,0.5,1] 
             for vx in bullet_x_speed_list:
                 new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom,self.type)
-                new_bullet.x_speed = vx
+                new_bullet.x_speed = vx*self.settings.boss_bullet_x_speed[self.type]
                 self.SW_game.boss_bullets.add(new_bullet)
         elif self.type == 'gamma':
             bullet_types = random.choice(['random','big','fast'])
@@ -168,8 +168,8 @@ class Boss(Sprite):
                 shootx_points = random.randint(self.rect.left,self.rect.right) 
                 for _ in range(5):
                     new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom,self.type)
-                    vx = random.randint(-3,3)
-                    vy = random.randint(1,3)
+                    vx = random.randint(-1,1)*self.settings.boss_bullet_x_speed[self.type]
+                    vy = random.randint(1,2)*self.settings.boss_bullet_y_speed[self.type]
                     new_bullet.x_speed = vx
                     new_bullet.y_speed = vy
                     self.SW_game.boss_bullets.add(new_bullet)
@@ -181,12 +181,12 @@ class Boss(Sprite):
                 new_bullet.y = float(new_bullet.rect.y)
                 new_bullet.x = float(new_bullet.rect.x)
                 new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*0.5
-                new_bullet.x_speed = self.settings.boss_bullet_x_speed[self.type]*0.5
+                new_bullet.x_speed = 0
                 self.SW_game.boss_bullets.add(new_bullet)
             elif bullet_types == 'fast':
                 shootx_points = random.randint(self.rect.left,self.rect.right)
                 for _ in range(5):
                     new_bullet = BossBullet(self.SW_game,shootx_points,self.rect.bottom,self.type)
                     new_bullet.x_speed = 0
-                    new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*3
+                    new_bullet.y_speed = self.settings.boss_bullet_y_speed[self.type]*4
                     self.SW_game.boss_bullets.add(new_bullet)
