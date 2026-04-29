@@ -127,8 +127,8 @@ class SymbolWar:
         if self.vs_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
             self.stats.reset_stats()
             self.gui.score_GUI_create()
-            self.gui.plane1_health_GUI_create(self.plane1)
-            self.gui.plane2_health_GUI_create(self.plane2,50)
+            self.gui.plane_health_GUI_create(self.plane1)
+            self.gui.plane_health_GUI_create(self.plane2,50)
             self.stats.vs = True
             self.plane2.rect.midtop = self.screen_rect.midtop
             self.plane2.image = self.settings.reverse_plane_image
