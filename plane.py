@@ -1,5 +1,3 @@
-from hmac import new
-
 from pygame.sprite import Sprite
 from bullet import Bullet
 
@@ -37,16 +35,15 @@ class Plane(Sprite):
     def shoot_bullet(self, bullets_group):
         if self.health <= 0 or len(bullets_group) >= self.settings.max_bullets:
             return
-        if len(bullets_group) < self.settings.max_bullets:
-            self.settings.shoot_sound.play()
-            new_bullet = Bullet(self.SW_game,direction=1 if self.player_id == 1 else -1 if self.SW_game.stats.vs else 1)
-            if self.SW_game.stats.vs and self.player_id == 2:
-                new_bullet.image = self.settings.reverse_bullet_image
-                new_bullet.rect.midbottom = self.rect.midbottom
-            else:
-                new_bullet.rect.midtop = self.rect.midtop
-            new_bullet.y = float(new_bullet.rect.y)
-            bullets_group.add(new_bullet)
+        self.settings.shoot_sound.play()
+        new_bullet = Bullet(self.SW_game,direction=1 if self.player_id == 1 else -1 if self.SW_game.stats.vs else 1)
+        if self.SW_game.stats.vs and self.player_id == 2:
+            new_bullet.image = self.settings.reverse_bullet_image
+            new_bullet.rect.midbottom = self.rect.midbottom
+        else:
+            new_bullet.rect.midtop = self.rect.midtop
+        new_bullet.y = float(new_bullet.rect.y)
+        bullets_group.add(new_bullet)
         
         # 更新飞机位置
     def update(self):

@@ -1,5 +1,3 @@
-from tkinter import SW
-
 from pygame.sprite import Sprite
 
 class Bullet(Sprite):

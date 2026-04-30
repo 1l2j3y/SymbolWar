@@ -61,3 +61,4 @@ class GameStats:
         self.game_active = True
         # 重置游戏开始时间
         self.game_start_time = pygame.time.get_ticks()
+        self.random_boss_spawned_time = 240000
