@@ -65,7 +65,7 @@ class SymbolWar:
         self.password = ''
             # 敌机生成计时器
         self.last_enemy_spawn_time = pygame.time.get_ticks()
-        self.boss_spawn_time = 24000
+        self.boss_spawn_time = 240000
 
         self.clock = pygame.time.Clock()
 
@@ -159,7 +159,8 @@ class SymbolWar:
         for hit_enemies in collisions.values():
             for injured_enemy in hit_enemies:
                 injured_enemy.health -= 1
-                injured_enemy.update_image()
+                if not is_boss:
+                    injured_enemy.update_image()
                 if injured_enemy.health <= 0:
                     injured_enemy.kill()
                     if not is_boss:
